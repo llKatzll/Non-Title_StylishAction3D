@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     float gravity;
     Animator animator;
     public float runspeed;
+    public float threecomboendtiming;
     long lastForward; //마지막으로 W를 눌렀던 시간
     #endregion
 
@@ -62,9 +63,13 @@ public class PlayerMove : MonoBehaviour
         {
             if(animator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("2") && !animator.GetBool("isAttacking"))
             {
-                if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6)
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > threecomboendtiming)
                 {
                     animator.SetBool("isThreeCombo", true);
+                }
+                else
+                {
+                    animator.SetBool("isThreeCombo", false);
                 }
             }
             Debug.Log("Clicked");

@@ -4810,6 +4810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runspeed: 7
+  threecomboendtiming: 0.6
   speed: 2.2
 --- !u!4 &1548331008 stripped
 Transform:
