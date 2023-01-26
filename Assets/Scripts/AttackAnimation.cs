@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
 {
-
+    private AttackTargetManager attackTarget;
     private PlayerMove parent;
     public GameObject effect; //이펙트의 원본
 
@@ -24,6 +24,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
 
     private void Awake()
     {
+        attackTarget = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<AttackTargetManager>();
         parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
 
         switch (attackType) // 스킬 위치값 벡터가 위치 쿼터니언이 로테이션
@@ -32,7 +33,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 effect = Instantiate(effect, new Vector3(-0.0307480991f, 1.2700001f, 0.189999998f), Quaternion.Euler(30, -100, -200), parent.transform);
                 break;
             case AttackType.B:
-                effect = Instantiate(effect, new Vector3(0.19406724f, 1.10295975f, -0.0782125294f), Quaternion.Euler(86.5657806f, 87.8785095f, 66.9312592f), parent.transform);
+                effect = Instantiate(effect, new Vector3(-0.0500000007f, 1.10295975f, -0.0782125294f), Quaternion.Euler(86.5657806f, 87.8785095f, 66.9312592f), parent.transform);
                 effect.transform.localScale = new Vector3(0.800000012f, 0.800000012f, 1);
                 break;
             case AttackType.C1:
@@ -85,6 +86,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 if (frame == 10)
                 {
                     effect.SetActive(true);
+                    attackTarget.Attack(0);
                 }
                 break;
             case AttackType.B:
@@ -95,6 +97,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 if (frame == 10)
                 {
                     effect.SetActive(true);
+                    attackTarget.Attack(1);
                 }
                 break;
             case AttackType.C1:
@@ -105,6 +108,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 if (frame == 10)
                 {
                     effect.SetActive(true);
+                    attackTarget.Attack(2);
                 }
                 break;
             case AttackType.C2:
@@ -115,6 +119,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 if (frame == 10)
                 {
                     effect.SetActive(true);
+                    attackTarget.Attack(3);
                 }
                 break;
             case AttackType.D:
@@ -125,6 +130,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 if (frame == 10)
                 {
                     effect.SetActive(true);
+                    attackTarget.Attack(4);
                 }
                 break;
             case AttackType.E:
@@ -135,6 +141,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 if (frame == 10)
                 {
                     effect.SetActive(true);
+                    attackTarget.Attack(5);
                 }
                 break;
         }
