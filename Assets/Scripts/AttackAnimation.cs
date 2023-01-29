@@ -24,6 +24,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
 
     private void Awake()
     {
+
         attackTarget = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<AttackTargetManager>();
         parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
 

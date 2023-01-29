@@ -16,15 +16,26 @@ public class PlayerMove : MonoBehaviour
 
     public float speed;
     // Start is called before the first frame update
+
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }
 
+    public void damaged()
+    {
+        animator.SetTrigger("Damaged");
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (!transform.CompareTag("LocalPlayer"))
+        {
+            return;
+        }
         animator.SetInteger("Horizontal", (int)Input.GetAxisRaw("Horizontal"));
         animator.SetInteger("Vertical", (int)Input.GetAxisRaw("Vertical"));
 
@@ -32,9 +43,9 @@ public class PlayerMove : MonoBehaviour
              (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
              (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")))
         {
-            Vector3 dir = (Vector3.right * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * (animator.GetBool("isRunning") ? runspeed : 1)) + //가로
-            (Vector3.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //세로
-            Vector3.up * gravity; //위아래
+            Vector3 dir = (transform.right * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * (animator.GetBool("isRunning") ? runspeed : 1)) + //가로
+            (transform.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //세로
+            transform.up * gravity; //위아래
             controller.Move(dir);
         }
        
@@ -79,7 +90,6 @@ public class PlayerMove : MonoBehaviour
             if (!animator.GetBool("isAttacking") && !animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
             {
                 animator.CrossFade("AttackStart", .25f,0);
-                animator.CrossFade("AttackStart", .25f,1);
             }
             animator.SetBool("isAttacking", true);
         }

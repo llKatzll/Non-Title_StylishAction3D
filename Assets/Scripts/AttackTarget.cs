@@ -5,11 +5,13 @@ using UnityEngine;
 public class AttackTarget : MonoBehaviour
 {
     List<GameObject> targets = new List<GameObject>();
+
     public void Attack()
     {
         for (int i = 0; i < targets.Count; i++)
         {
             Debug.Log(targets[i]);
+            targets[i].GetComponent<PlayerMove>().damaged();
         }
     }
 

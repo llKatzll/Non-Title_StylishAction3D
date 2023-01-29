@@ -56,11 +56,13 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\SwordCollision.cs" />
     <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_GrvityPoint.cs" />
     <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\MobileBloom\Slashes_MobileBloom.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_MeshMaterialEffect.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\Helpers\ME_EffectSettingColor.cs" />
     <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_AxisRotateByTime.cs" />
+    <Compile Include="Assets\Scripts\AttackTargetManager.cs" />
     <Compile Include="Assets\Scripts\AttackAnimation.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_LightCurves.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_ParticleGravityPoint.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\Rendering\ME_PerPlatformSettings.cs" />
     <Compile Include="Assets\Scripts\PlayerMove.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\Helpers\ME_AnimatorEvents.cs" />
+    <Compile Include="Assets\Scripts\AttackTarget.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_FixParticlesAligment.cs" />
     <Compile Include="Assets\Scripts\SkillCommand.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_ParticleCollisionDecal.cs" />
@@ -87,9 +90,7 @@
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_TrailRendererNoise.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\DemoResources\Scripts\ME_MouseOrbit.cs" />
     <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\SceneResources\Other\Slash_DemoGUI.cs" />
-    <Compile Include="Assets\Scripts\SwordCollision.cs" />
-    <Compile Include="Assets\Scripts\AttackTarget.cs" />
-    <Compile Include="Assets\Scripts\AttackTargetManager.cs" />
+    <Compile Include="Assets\Scripts\CameraRotater.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Demo scene\HDRP and URP.txt" />

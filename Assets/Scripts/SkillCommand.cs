@@ -64,6 +64,11 @@ public class SkillCommand : MonoBehaviour
 
     public void Update()
     {
+        if (!transform.CompareTag("LocalPlayer"))
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.A))
         {
             tmpCommand += "A";
