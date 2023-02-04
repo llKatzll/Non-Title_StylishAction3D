@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class SkillCommand : MonoBehaviour
 {
+    public PlayerCondition condition;
+
+    private void Start()
+    {
+        condition = GetComponent<PlayerCondition>();
+    }
+
     public enum Skill
     {
         A,
@@ -122,6 +129,7 @@ public class SkillCommand : MonoBehaviour
                 switch (whileAttackCommnand[tmpCommand])
                 {
                     case Skill.G:
+                        condition.StaminaUse(300);
                         animator.CrossFade("Skill_G", .25f);
                         break;
                 }
@@ -138,12 +146,15 @@ public class SkillCommand : MonoBehaviour
                 switch (whileDodgeCommand[tmpCommand])
                 {
                     case Skill.A:
+                        condition.StaminaUse(150);
                         animator.CrossFade("Skill_A", .25f);
                         break;
                     case Skill.B:
+                        condition.StaminaUse(150);
                         animator.CrossFade("Skill_B", .25f);
                         break;
                     case Skill.C:
+                        condition.StaminaUse(150);
                         animator.CrossFade("Skill_C", .25f);
                         break;
                 }
@@ -156,6 +167,7 @@ public class SkillCommand : MonoBehaviour
             //아무것도 안하는 상태
             if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Q))
             {
+                condition.StaminaUse(100);
                 animator.CrossFade("Dodge_Back", .25f);
                 _tmpCommand = "";
                 return;
@@ -168,6 +180,7 @@ public class SkillCommand : MonoBehaviour
                 switch (whileIdleCommand[tmpCommand])
                 {
                     case Skill.H:
+                        condition.StaminaUse(200);
                         animator.CrossFade("Skill_H", .25f);
                         break;
                 }

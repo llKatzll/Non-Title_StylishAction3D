@@ -7,6 +7,8 @@ public class PlayerMove : MonoBehaviour
 {
     #region Private Field
     CharacterController controller;
+    PlayerCondition condition;
+    Coroutine healCoroutine;
     float gravity;
     Animator animator;
     public float runspeed;
@@ -22,6 +24,7 @@ public class PlayerMove : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        condition = GetComponent<PlayerCondition>();
     }
 
     public void damaged()
@@ -40,24 +43,53 @@ public class PlayerMove : MonoBehaviour
         animator.SetInteger("Vertical", (int)Input.GetAxisRaw("Vertical"));
 
         if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //공격중이 아니"면서"
-             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
-             (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")))
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill"))) //스킬 사용도
         {
             Vector3 dir = (transform.right * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * (animator.GetBool("isRunning") ? runspeed : 1)) + //가로
             (transform.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //세로
             transform.up * gravity; //위아래
+            if (animator.GetBool("isRunning"))
+            {
+                condition.StaminaUse(1);
+                if (healCoroutine != null)
+                {
+                    StopCoroutine(healCoroutine);
+                    healCoroutine = null;
+                }
+            }
+            else
+            {
+                if (healCoroutine == null)
+                {
+                    healCoroutine = StartCoroutine(StaminaHeal());
+                }
+            }
             controller.Move(dir);
         }
-       
+        else
+        {
+            if (healCoroutine != null)
+            {
+                StopCoroutine(healCoroutine);
+                healCoroutine = null;
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastForward <= 300)
             {
-                animator.SetBool("isRunning", true);
+                if (condition.CanUseStamina())
+                {
+                    animator.SetBool("isRunning", true); //
+                }
             }
             lastForward = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         }
-        if (Input.GetAxisRaw("Vertical") == 0)
+
+        //더 이상의 입력이 없으니까 || 
+        if (Input.GetAxisRaw("Vertical") == 0 || !condition.CanUseStamina())
         {
             animator.SetBool("isRunning", false);
         }
@@ -71,28 +103,52 @@ public class PlayerMove : MonoBehaviour
             gravity -= .05f; //한 프레임당 중력에 0.1이라는 힘을 더해준다
         }
 
-        if (Input.GetMouseButtonDown(0) && !animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard") &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge"))) //좌클릭을 누르는 경우
+        if (Input.GetMouseButtonDown(0) && (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard"))
+            && (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill"))
+            && (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge"))) //좌클릭을 누르는 경우
         {
-            if(animator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("2") && !animator.GetBool("isAttacking"))
+            if (!condition.CanUseStamina())
             {
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > threecomboendtiming)
+                goto NEXT_ATTACK;
+            }
+            if (!animator.GetBool("isAttacking") && !animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            {
+                condition.StaminaUse(100);
+                animator.CrossFade("AttackStart", .25f, 0);
+                animator.SetBool("isThreeCombo", false);
+                goto NEXT_ATTACK;
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .1f) //애니메이션 10퍼센트도 안되면 선입력 판단하고 막기
+            {
+                goto NEXT_ATTACK;
+            }
+
+            if (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && animator.GetNextAnimatorStateInfo(0).normalizedTime <= .1f)
+            {
+                goto NEXT_ATTACK;
+            }
+
+            if (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= .5f)
+            {
+                goto NEXT_ATTACK;
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("2") && !animator.GetBool("isAttacking"))
+            {
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .3f)
                 {
                     animator.SetBool("isThreeCombo", true);
                 }
-                else
-                {
-                    animator.SetBool("isThreeCombo", false);
-                }
             }
-            Debug.Log("Clicked");
-            if (!animator.GetBool("isAttacking") && !animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            if (!animator.GetBool("isAttacking") && (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")))
             {
-                animator.CrossFade("AttackStart", .25f,0);
+                condition.StaminaUse(100);
+                animator.SetBool("isAttacking", true);
             }
-            animator.SetBool("isAttacking", true);
+
         }
+        NEXT_ATTACK:
 
 
         if (Input.GetKeyDown(KeyCode.F) && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) &&
@@ -102,12 +158,29 @@ public class PlayerMove : MonoBehaviour
             if (!animator.GetBool("isGuarding") && !animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard"))
             {
                 animator.CrossFade("GuardStart", .25f, 0);
+
             }
             animator.SetBool("isGuarding", true);
+        }
+        if (Input.GetKey(KeyCode.F))
+        {
+            condition.StaminaUse(2);
         }
         if (Input.GetKeyUp(KeyCode.F)) //방어 모드 (때는데 걸리는 시간 검사 예정)
         {
             animator.SetBool("isGuarding", false);
         }
+        
     }
+
+    IEnumerator StaminaHeal()
+    {
+        yield return new WaitForSeconds(1f);
+        while (true)
+        {
+            condition.StaminaUse(-10);
+            yield return null;
+        }
+    }
+
 }

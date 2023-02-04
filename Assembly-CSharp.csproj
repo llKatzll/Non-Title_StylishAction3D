@@ -86,11 +86,12 @@
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_ParticleTrails.cs" />
     <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_Light.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_Reflection.cs" />
+    <Compile Include="Assets\Scripts\CameraRotater.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\Helpers\ME_ColorHelper.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_TrailRendererNoise.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\DemoResources\Scripts\ME_MouseOrbit.cs" />
     <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\SceneResources\Other\Slash_DemoGUI.cs" />
-    <Compile Include="Assets\Scripts\CameraRotater.cs" />
+    <Compile Include="Assets\Scripts\PlayerCondition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Demo scene\HDRP and URP.txt" />

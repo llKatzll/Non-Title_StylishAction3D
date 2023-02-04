@@ -60,20 +60,22 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.SetFloat("AnimationSpeed", 1f);
+        animator.SetBool("isAttacking", false);
         frame = 0;
         base.OnStateEnter(animator, stateInfo, layerIndex);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        effect.SetActive(false);
         if (attackType == AttackType.C1)
         {
             animator.SetBool("isThreeCombo", false);
         }
-        effect.SetActive(false);
-        animator.SetBool("isAttacking", false);
         base.OnStateExit(animator, stateInfo, layerIndex);
     }
+
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) //애니메이션 한 프레임마다 업데이트
     {
         frame++;
