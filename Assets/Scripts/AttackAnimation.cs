@@ -5,6 +5,7 @@ using UnityEngine;
 public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
 {
     private AttackTargetManager attackTarget;
+    private PlayerCondition condition;
     private PlayerMove parent;
     public GameObject effect; //이펙트의 원본
 
@@ -24,9 +25,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
 
     private void Awake()
     {
-
         attackTarget = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<AttackTargetManager>();
         parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
+        condition = parent.GetComponent<PlayerCondition>();
 
         switch (attackType) // 스킬 위치값 벡터가 위치 쿼터니언이 로테이션
         {
@@ -69,7 +70,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         effect.SetActive(false);
-        if (attackType == AttackType.C1)
+        if (attackType == AttackType.E)
         {
             animator.SetBool("isThreeCombo", false);
         }
@@ -88,8 +89,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
+                    condition.StaminaUse(100);
                     effect.SetActive(true);
-                    attackTarget.Attack(0);
+                    attackTarget.Attack(0, parent.transform, 10);
                 }
                 break;
             case AttackType.B:
@@ -99,8 +101,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
+                    condition.StaminaUse(100);
                     effect.SetActive(true);
-                    attackTarget.Attack(1);
+                    attackTarget.Attack(1,parent.transform,10);
                 }
                 break;
             case AttackType.C1:
@@ -110,19 +113,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
+                    condition.StaminaUse(100);
                     effect.SetActive(true);
-                    attackTarget.Attack(2);
-                }
-                break;
-            case AttackType.C2:
-                if (stateInfo.normalizedTime < .1f)
-                {
-                    animator.SetBool("isAttacking", false);
-                }
-                if (frame == 10)
-                {
-                    effect.SetActive(true);
-                    attackTarget.Attack(3);
+                    attackTarget.Attack(2, parent.transform, 10);
                 }
                 break;
             case AttackType.D:
@@ -132,8 +125,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
+                    condition.StaminaUse(100);
                     effect.SetActive(true);
-                    attackTarget.Attack(4);
+                    attackTarget.Attack(4, parent.transform, 100);
                 }
                 break;
             case AttackType.E:
@@ -143,8 +137,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
+                    condition.StaminaUse(200);
                     effect.SetActive(true);
-                    attackTarget.Attack(5);
+                    attackTarget.Attack(5, parent.transform, 100);
                 }
                 break;
         }

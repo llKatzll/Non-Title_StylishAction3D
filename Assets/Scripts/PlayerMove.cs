@@ -17,6 +17,8 @@ public class PlayerMove : MonoBehaviour
     #endregion
 
     public float speed;
+    public int downStat = 0;
+    public int maxDownStat = 0;
     // Start is called before the first frame update
 
 
@@ -27,8 +29,24 @@ public class PlayerMove : MonoBehaviour
         condition = GetComponent<PlayerCondition>();
     }
 
-    public void damaged()
+    public void damaged(Transform hitter, int downStat)
     {
+        Debug.Log(hitter.name);
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Down")) //다운당하는 중일때에는 피격당하지 않는다.
+        {
+            return;
+        }
+
+        transform.LookAt(hitter);
+
+
+        this.downStat += downStat;
+        if (this.downStat >= maxDownStat)
+        {
+            this.downStat = 0;
+            animator.CrossFade("KnockDown", .25f);
+            return;
+        }
         animator.SetTrigger("Damaged");
     }
 
@@ -44,7 +62,8 @@ public class PlayerMove : MonoBehaviour
 
         if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //공격중이 아니"면서"
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill"))) //스킬 사용도
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //스킬 사용도
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")))
         {
             Vector3 dir = (transform.right * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * (animator.GetBool("isRunning") ? runspeed : 1)) + //가로
             (transform.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //세로
@@ -113,7 +132,7 @@ public class PlayerMove : MonoBehaviour
             }
             if (!animator.GetBool("isAttacking") && !animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
             {
-                condition.StaminaUse(100);
+                
                 animator.CrossFade("AttackStart", .25f, 0);
                 animator.SetBool("isThreeCombo", false);
                 goto NEXT_ATTACK;
@@ -143,7 +162,7 @@ public class PlayerMove : MonoBehaviour
             }
             if (!animator.GetBool("isAttacking") && (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")))
             {
-                condition.StaminaUse(100);
+                
                 animator.SetBool("isAttacking", true);
             }
 
@@ -170,7 +189,15 @@ public class PlayerMove : MonoBehaviour
         {
             animator.SetBool("isGuarding", false);
         }
-        
+        if(Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //공격중이 아니"면서"
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //스킬 사용도
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")) &&
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("isJumping") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isJumping")))
+        {
+            animator.SetTrigger("isJumping");
+
+        }
     }
 
     IEnumerator StaminaHeal()

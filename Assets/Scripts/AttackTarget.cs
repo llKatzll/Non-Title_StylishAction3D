@@ -6,12 +6,12 @@ public class AttackTarget : MonoBehaviour
 {
     List<GameObject> targets = new List<GameObject>();
 
-    public void Attack()
+    public void Attack(Transform hitter, int downStat)
     {
         for (int i = 0; i < targets.Count; i++)
         {
             Debug.Log(targets[i]);
-            targets[i].GetComponent<PlayerMove>().damaged();
+            targets[i].GetComponent<PlayerMove>().damaged(hitter, downStat);
         }
     }
 

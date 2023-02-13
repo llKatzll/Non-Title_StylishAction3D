@@ -162,7 +162,9 @@ public class SkillCommand : MonoBehaviour
             return;
         }
 
-        if (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) //!기본 공격 && !구르기 && !막기
+        if (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard") //!기본 공격 && !구르기 && !막기
+            && !animator.GetNextAnimatorStateInfo(0).IsTag("isJumping") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isJumping"))
+
         {
             //아무것도 안하는 상태
             if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Q))

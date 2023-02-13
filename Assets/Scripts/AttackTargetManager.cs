@@ -7,8 +7,8 @@ public class AttackTargetManager : MonoBehaviour
 
     public AttackTarget[] attackTargets;
 
-    public void Attack(int type)
+    public void Attack(int type, Transform hitter, int downStat)
     {
-        attackTargets[type].Attack();
+        attackTargets[type].Attack(hitter, downStat);
     }
 }
