@@ -181,6 +181,7 @@ public class SkillCommand : MonoBehaviour
                 Debug.Log(whileIdleCommand[tmpCommand]);
                 switch (whileIdleCommand[tmpCommand])
                 {
+
                     case Skill.H:
                         condition.StaminaUse(200);
                         animator.CrossFade("Skill_H", .25f);
