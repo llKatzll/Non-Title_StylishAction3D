@@ -21,12 +21,19 @@ public class PlayerMove : MonoBehaviour
     public int maxDownStat = 0;
     // Start is called before the first frame update
 
+    Network network;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         condition = GetComponent<PlayerCondition>();
+        network = FindObjectOfType<Network>();
+        if (!transform.CompareTag("LocalPlayer"))
+        {
+            network.otherPlayer = this;
+            network.otherPlayerTransform = transform;
+        }
     }
 
     public void damaged(Transform hitter, int downStat)
@@ -68,6 +75,9 @@ public class PlayerMove : MonoBehaviour
             Vector3 dir = (transform.right * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * (animator.GetBool("isRunning") ? runspeed : 1)) + //가로
             (transform.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //세로
             transform.up * gravity; //위아래
+
+            network.Move(dir);
+
             if (animator.GetBool("isRunning"))
             {
                 condition.StaminaUse(1);
@@ -132,7 +142,7 @@ public class PlayerMove : MonoBehaviour
             }
             if (!animator.GetBool("isAttacking") && !animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
             {
-                
+
                 animator.CrossFade("AttackStart", .25f, 0);
                 animator.SetBool("isThreeCombo", false);
                 goto NEXT_ATTACK;
@@ -162,7 +172,7 @@ public class PlayerMove : MonoBehaviour
             }
             if (!animator.GetBool("isAttacking") && (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")))
             {
-                
+
                 animator.SetBool("isAttacking", true);
             }
 
@@ -189,7 +199,7 @@ public class PlayerMove : MonoBehaviour
         {
             animator.SetBool("isGuarding", false);
         }
-        if(Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //공격중이 아니"면서"
+        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //공격중이 아니"면서"
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //스킬 사용도
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")) &&
@@ -208,6 +218,30 @@ public class PlayerMove : MonoBehaviour
             condition.StaminaUse(-10);
             yield return null;
         }
+    }
+
+    public void Move(Vector3 dir)
+    {
+        UnityMainThreadDispatcher.Instance().Enqueue(delegate
+        {
+            if (animator.GetBool("isRunning"))
+            {
+                condition.StaminaUse(1);
+                if (healCoroutine != null)
+                {
+                    StopCoroutine(healCoroutine);
+                    healCoroutine = null;
+                }
+            }
+            else
+            {
+                if (healCoroutine == null)
+                {
+                    healCoroutine = StartCoroutine(StaminaHeal());
+                }
+            }
+            controller.Move(dir);
+        });
     }
 
 }
