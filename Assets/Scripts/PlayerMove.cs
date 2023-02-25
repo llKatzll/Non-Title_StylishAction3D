@@ -34,6 +34,32 @@ public class PlayerMove : MonoBehaviour
             network.otherPlayer = this;
             network.otherPlayerTransform = transform;
         }
+
+        if (network.UserIndex == 0)
+        {
+            if (transform.CompareTag("LocalPlayer"))
+            {
+                transform.position = new Vector3(0, 0, 0);
+            }
+            else
+            {
+                transform.position = new Vector3(0, 0, 10);
+            }
+        }
+        else
+        {
+            if (transform.CompareTag("LocalPlayer"))
+            {
+                transform.position = new Vector3(0, 0, 10);
+            }
+            else
+            {
+                transform.position = new Vector3(0, 0, 0);
+            }
+        }
+
+        Application.targetFrameRate = 60;
+        network.Ping();
     }
 
     public void damaged(Transform hitter, int downStat)
@@ -57,7 +83,6 @@ public class PlayerMove : MonoBehaviour
         animator.SetTrigger("Damaged");
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!transform.CompareTag("LocalPlayer"))
@@ -76,7 +101,7 @@ public class PlayerMove : MonoBehaviour
             (transform.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //세로
             transform.up * gravity; //위아래
 
-            network.Move(dir);
+            network.Move(new float[] { Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), transform.position.x, transform.position.y, transform.position.z });
 
             if (animator.GetBool("isRunning"))
             {
@@ -142,7 +167,7 @@ public class PlayerMove : MonoBehaviour
             }
             if (!animator.GetBool("isAttacking") && !animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
             {
-
+                network.SendPacket(Network.NetworkOrder.PlayerAttack, null);
                 animator.CrossFade("AttackStart", .25f, 0);
                 animator.SetBool("isThreeCombo", false);
                 goto NEXT_ATTACK;
@@ -172,7 +197,7 @@ public class PlayerMove : MonoBehaviour
             }
             if (!animator.GetBool("isAttacking") && (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")))
             {
-
+                network.SendPacket(Network.NetworkOrder.PlayerAttack, null);
                 animator.SetBool("isAttacking", true);
             }
 
@@ -189,6 +214,8 @@ public class PlayerMove : MonoBehaviour
                 animator.CrossFade("GuardStart", .25f, 0);
 
             }
+
+            network.SendPacket(Network.NetworkOrder.PlayerGuard, null);
             animator.SetBool("isGuarding", true);
         }
         if (Input.GetKey(KeyCode.F))
@@ -197,6 +224,7 @@ public class PlayerMove : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.F)) //방어 모드 (때는데 걸리는 시간 검사 예정)
         {
+            network.SendPacket(Network.NetworkOrder.PlayerGuardEnd, null);
             animator.SetBool("isGuarding", false);
         }
         if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //공격중이 아니"면서"
@@ -220,27 +248,128 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void Move(Vector3 dir)
+    public void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //공격중이 아니"면서"
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //스킬 사용도
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")) &&
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("isJumping") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isJumping")))
+        {
+            animator.SetTrigger("isJumping");
+        }
+    }
+
+    public void GuardStart()
+    {
+        if (!animator.GetBool("isGuarding") && !animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard"))
+        {
+            animator.CrossFade("GuardStart", .25f, 0);
+
+        }
+        animator.SetBool("isGuarding", true);
+    }
+
+    public void GuardEnd()
+    {
+        animator.SetBool("isGuarding", false);
+    }
+
+    public void Attack()
+    {
+        if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard"))
+            && (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill"))
+            && (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge"))) //좌클릭을 누르는 경우
+        {
+            //if (!condition.CanUseStamina())
+            //{
+            //    return;
+            //}
+            if (!animator.GetBool("isAttacking") && !animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            {
+                animator.CrossFade("AttackStart", .25f, 0);
+                animator.SetBool("isThreeCombo", false);
+                return;
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .1f) //애니메이션 10퍼센트도 안되면 선입력 판단하고 막기
+            {
+                return;
+            }
+
+            if (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && animator.GetNextAnimatorStateInfo(0).normalizedTime <= .1f)
+            {
+                return;
+            }
+
+            if (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= .5f)
+            {
+                return;
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash("2") && !animator.GetBool("isAttacking"))
+            {
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .3f)
+                {
+                    animator.SetBool("isThreeCombo", true);
+                }
+            }
+            if (!animator.GetBool("isAttacking") && (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")))
+            {
+                animator.SetBool("isAttacking", true);
+            }
+
+        }
+    }
+
+    //멀티플레이어 - 다른 유저가 움직이는 함수
+    public void Move(float[] dirF)
     {
         UnityMainThreadDispatcher.Instance().Enqueue(delegate
         {
-            if (animator.GetBool("isRunning"))
+            animator.SetInteger("Horizontal", (int)dirF[0]);
+            animator.SetInteger("Vertical", (int)dirF[1]);
+
+            if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //공격중이 아니"면서"
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //스킬 사용도
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")))
             {
-                condition.StaminaUse(1);
+                if (transform.position.x != dirF[2] || transform.position.y != dirF[3] || transform.position.z != dirF[4])
+                {
+                    transform.position = new Vector3(dirF[2], dirF[3], dirF[4]);
+                }
+
+                Vector3 dir = (transform.right * speed * Time.deltaTime * dirF[0] * (animator.GetBool("isRunning") ? runspeed : 1)) + //가로
+                (transform.forward * speed * Time.deltaTime * dirF[1] * (animator.GetBool("isRunning") ? runspeed : 1)) + //세로
+                transform.up * gravity; //위아래
+
+                if (animator.GetBool("isRunning"))
+                {
+                    condition.StaminaUse(1);
+                    if (healCoroutine != null)
+                    {
+                        StopCoroutine(healCoroutine);
+                        healCoroutine = null;
+                    }
+                }
+                else
+                {
+                    if (healCoroutine == null)
+                    {
+                        healCoroutine = StartCoroutine(StaminaHeal());
+                    }
+                }
+                controller.Move(dir);
+            }
+            else
+            {
                 if (healCoroutine != null)
                 {
                     StopCoroutine(healCoroutine);
                     healCoroutine = null;
                 }
             }
-            else
-            {
-                if (healCoroutine == null)
-                {
-                    healCoroutine = StartCoroutine(StaminaHeal());
-                }
-            }
-            controller.Move(dir);
         });
     }
 

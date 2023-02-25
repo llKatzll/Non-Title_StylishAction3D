@@ -9,6 +9,8 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
     private PlayerMove parent;
     public GameObject effect; //이펙트의 원본
 
+    public bool isLocalPlayer;
+
     public enum AttackType
     {
         A,
@@ -25,9 +27,19 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
 
     private void Awake()
     {
-        attackTarget = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<AttackTargetManager>();
-        parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
-        condition = parent.GetComponent<PlayerCondition>();
+        if (isLocalPlayer)
+        {
+            attackTarget = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<AttackTargetManager>();
+            parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
+            condition = parent.GetComponent<PlayerCondition>();
+        }
+        else
+        {
+            attackTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<AttackTargetManager>();
+            parent = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
+            condition = parent.GetComponent<PlayerCondition>();
+        }
+
 
         switch (attackType) // 스킬 위치값 벡터가 위치 쿼터니언이 로테이션
         {
@@ -89,9 +101,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
-                    condition.StaminaUse(100);
                     effect.SetActive(true);
                     attackTarget.Attack(0, parent.transform, 10);
+                    if (isLocalPlayer) condition.StaminaUse(100);
                 }
                 break;
             case AttackType.B:
@@ -101,9 +113,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
-                    condition.StaminaUse(100);
                     effect.SetActive(true);
-                    attackTarget.Attack(1,parent.transform,10);
+                    attackTarget.Attack(1, parent.transform, 10);
+                    if (isLocalPlayer) condition.StaminaUse(100);
                 }
                 break;
             case AttackType.C1:
@@ -113,9 +125,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
-                    condition.StaminaUse(100);
                     effect.SetActive(true);
                     attackTarget.Attack(2, parent.transform, 10);
+                    if (isLocalPlayer) condition.StaminaUse(100);
                 }
                 break;
             case AttackType.D:
@@ -125,9 +137,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
-                    condition.StaminaUse(100);
                     effect.SetActive(true);
                     attackTarget.Attack(4, parent.transform, 100);
+                    if (isLocalPlayer) condition.StaminaUse(100);
                 }
                 break;
             case AttackType.E:
@@ -137,9 +149,9 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
                 }
                 if (frame == 10)
                 {
-                    condition.StaminaUse(200);
                     effect.SetActive(true);
                     attackTarget.Attack(5, parent.transform, 100);
+                    if (isLocalPlayer) condition.StaminaUse(200);
                 }
                 break;
         }

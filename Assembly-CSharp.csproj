@@ -58,20 +58,21 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerCondition.cs" />
     <Compile Include="Assets\Scripts\SwordCollision.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_GrvityPoint.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\MobileBloom\Slashes_MobileBloom.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_GrvityPoint.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\MobileBloom\Slashes_MobileBloom.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_MeshMaterialEffect.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\Helpers\ME_EffectSettingColor.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_AxisRotateByTime.cs" />
+    <Compile Include="Assets\Scripts\Network.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_AxisRotateByTime.cs" />
     <Compile Include="Assets\Scripts\AttackTargetManager.cs" />
     <Compile Include="Assets\Scripts\AttackAnimation.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_LightCurves.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_ParticleGravityPoint.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\PSMeshRendererUpdater.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_WroomWroom.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_WroomWroom.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_CustomLight.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_UIEffectList.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\AnimationEventEffects.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_UIEffectList.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\AnimationEventEffects.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\Rendering\ME_PerPlatformSettings.cs" />
     <Compile Include="Assets\Scripts\PlayerMove.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\Helpers\ME_AnimatorEvents.cs" />
@@ -81,54 +82,53 @@
     <Compile Include="Assets\Scripts\SkillCommand.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_ParticleCollisionDecal.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\DemoResources\Scripts\ME_DemoGUI.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Teleport.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Demo scene\CameraHolder.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\SceneResources\Other\Slash_MouseOrbit.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Teleport.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Demo scene\CameraHolder.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\SceneResources\Other\Slash_MouseOrbit.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\DemoResources\Scripts\ME_RealtimeReflection.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_ParticleTrails.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_Light.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Scripts\Slash_Light.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_Reflection.cs" />
     <Compile Include="Assets\Scripts\CameraRotater.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\Helpers\ME_ColorHelper.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\Scripts\ME_TrailRendererNoise.cs" />
     <Compile Include="Assets\KriptoFX\MeshEffect\DemoResources\Scripts\ME_MouseOrbit.cs" />
-    <Compile Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\SceneResources\Other\Slash_DemoGUI.cs" />
-    <Compile Include="Assets\Scripts\Network.cs" />
+    <Compile Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\SceneResources\Other\Slash_DemoGUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Demo scene\HDRP and URP.txt" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\MobileBloom\Resources\Slashes_Bloom.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Demo scene\HDRP and URP.txt" />
+    <None Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\MobileBloom\Resources\Slashes_Bloom.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Readme.txt" />
     <None Include="Assets\___www.unityassetcollection.com___.txt" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_Gold.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\DissolveNoise.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Add_Fresnel.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Ice.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Distortion.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Blend_TwoSides.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Blend_CenterGlow.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\DissolveNoise.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Add_Fresnel.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Ice.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Distortion.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Blend_TwoSides.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Blend_CenterGlow.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_UberDistortion.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Demo scene\Readme.txt" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Demo scene\Readme.txt" />
     <None Include="Assets\Free Stylized Skybox\ReadMe.txt" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Lightning.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Lightning.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_GlowCutoutGradient.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\MobileBloom\Resources\Slashes_Bloom_Inc.cginc" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\BlendDistort.shader" />
+    <None Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\MobileBloom\Resources\Slashes_Bloom_Inc.cginc" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\BlendDistort.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_DistortionPasses.cginc" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Shaders\Slash_AnimBlended.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Scroll.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Shaders\SlashBird.shader" />
+    <None Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Shaders\Slash_AnimBlended.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Scroll.shader" />
+    <None Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Shaders\SlashBird.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_UberParticleShader.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Shaders\SlashShader.shader" />
+    <None Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Shaders\SlashShader.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_DistortionPerlin.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\SceneResources\Other\CullOffMobileDiffuse.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Add_CenterGlow.shader" />
+    <None Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\SceneResources\Other\CullOffMobileDiffuse.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Add_CenterGlow.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_GlowCutout.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\OrdosFX\Magic Slashes FX\Shaders\SlashParticles.shader" />
+    <None Include="Assets\본게임\Assets (3)\OrdosFX\Magic Slashes FX\Shaders\SlashParticles.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_LightningParticles.shader" />
     <None Include="Assets\KriptoFX\MeshEffect\Shaders\ME_DistortionSlime.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Explosion.shader" />
-    <None Include="Assets\Grruzam Powerful Sword Animation(Great Sword, Katana)\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\SwordSlash.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\Explosion.shader" />
+    <None Include="Assets\본게임\Assets (3)\Hovl Studio\Sword slash VFX\Shaders\SwordSlash.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -353,17 +353,17 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.34f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Nakama">
-      <HintPath>Assets\Packages\Nakama\Runtime\Plugins\Nakama.dll</HintPath>
-    </Reference>
-    <Reference Include="Satori">
-      <HintPath>Assets\Packages\Nakama\Runtime\Plugins\Satori.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Nakama">
+      <HintPath>Assets\Packages\Nakama\Runtime\Plugins\Nakama.dll</HintPath>
+    </Reference>
     <Reference Include="MainThreadDispatcher">
       <HintPath>Assets\MainThreadDispatcher.Unity\MainThreadDispatcher.dll</HintPath>
+    </Reference>
+    <Reference Include="Satori">
+      <HintPath>Assets\Packages\Nakama\Runtime\Plugins\Satori.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.34f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -754,14 +754,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="NakamaEditor.csproj">
-      <Project>{C82B556C-0A4C-34A0-C04A-134FBCA0F941}</Project>
-      <Name>NakamaEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="NakamaRuntime.csproj">
-      <Project>{D62F09E0-8123-20FF-CE78-230A59300A52}</Project>
-      <Name>NakamaRuntime</Name>
-    </ProjectReference>
     <ProjectReference Include="MainThreadDispatcher.Unity.csproj">
       <Project>{F3F8F6B8-AC8B-65F1-26BB-E1FB46CD3BDD}</Project>
       <Name>MainThreadDispatcher.Unity</Name>
@@ -769,6 +761,14 @@
     <ProjectReference Include="PimDeWitte.UnityMainThreadDispatcher.csproj">
       <Project>{9F3D3439-F19C-73E8-5286-0D6C618BCD91}</Project>
       <Name>PimDeWitte.UnityMainThreadDispatcher</Name>
+    </ProjectReference>
+    <ProjectReference Include="NakamaEditor.csproj">
+      <Project>{C82B556C-0A4C-34A0-C04A-134FBCA0F941}</Project>
+      <Name>NakamaEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NakamaRuntime.csproj">
+      <Project>{D62F09E0-8123-20FF-CE78-230A59300A52}</Project>
+      <Name>NakamaRuntime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

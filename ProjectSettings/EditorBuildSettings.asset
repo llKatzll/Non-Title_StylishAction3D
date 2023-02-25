@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 2caa57b79600e0444a477d5b1b6e6bfd
   - enabled: 1
-    path: Assets/Grruzam Powerful Sword Animation(Great Sword, Katana)/Scenes/Scenes_Grruzam_Animation.unity
+    path: "Assets/\uBCF8\uAC8C\uC784/Scenes/Scenes_Grruzam_Animation.unity"
     guid: e5afee744a7b9f343a5e3bf0ca2c1728
   m_configObjects: {}

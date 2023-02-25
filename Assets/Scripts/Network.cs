@@ -12,24 +12,40 @@ using UnityEngine.SceneManagement;
 public class Network : MonoBehaviour
 {
 
-    public class Vector3Class
-    {
-        public float x;
-        public float y;
-        public float z;
-    }
-    Vector3Class vector3 = new Vector3Class();
-
 
     public IClient client;
     public ISession session;
     public ISocket socket;
 
     private IMatch match;
+    private IMatchmakerTicket matchmakerTicket; //매치메이킹에 필요한 티켓
     private bool matchCreated;
 
     public PlayerMove otherPlayer; //이동 관련
     public Transform otherPlayerTransform; //rotation
+
+    public int UserIndex = 0;
+
+    public enum NetworkOrder
+    {
+        PlayerMove = 100, //움직임
+        PlayerRotation, //바라보는 방향
+        PlayerAttack, //공격
+        PlayerSkill, //스킬 사용
+        PlayerJump,
+
+        PlayerGuard, //가드 버튼
+        PlayerGuardEnd, //가드 버튼 뗏을때
+
+        PingPong
+    }
+
+    public struct NetworkPacket
+    {
+        public NetworkOrder packetType; //정보의 종류
+        public string packetBody;
+    }
+
 
     private void Awake()
     {
@@ -73,18 +89,42 @@ public class Network : MonoBehaviour
 
     public async void OnMatchMakerReceived(IMatchmakerMatched matched) //매치메이킹 성공시 호출되는 함수
     {
+        socket.ReceivedMatchmakerMatched -= OnMatchMakerReceived;
         Debug.Log("매치가 생성되었습니다. " + matched.MatchId);
 
         match = await socket.JoinMatchAsync(matched);
         matchCreated = true;
+
+        //매치에 참여하고 있는 참가자 명단
+        var users = match.Presences.GetEnumerator();
+        var i = 0;
+        while (users.MoveNext())
+        {
+            if (users.Current.UserId == session.UserId) //순회하면서 현재 로그인된 세션의 아이디와 비교
+            {
+                break;
+            }
+            i++;
+        }
+
+        UserIndex = i;
+
         socket.ReceivedMatchState += OtherInfo;
+
     }
     public async void MatchMakingStart()
     {
         socket.ReceivedMatchmakerMatched += OnMatchMakerReceived;
-        var ticket = await socket.AddMatchmakerAsync("*", 2, 2);
+        matchmakerTicket = await socket.AddMatchmakerAsync("*", 2, 2);
 
-        Debug.Log("매치메이킹이 시작되었습니다. " + ticket.Ticket);
+        Debug.Log("매치메이킹이 시작되었습니다. " + matchmakerTicket.Ticket);
+    }
+
+    public async void MatchMakingStop()
+    {
+        socket.ReceivedMatchmakerMatched -= OnMatchMakerReceived;
+        await socket.RemoveMatchmakerAsync(matchmakerTicket);
+        Debug.Log("매치메이킹이 중단되었습니다. ");
     }
 
 
@@ -97,33 +137,75 @@ public class Network : MonoBehaviour
         }
     }
 
-    public void Move(Vector3 dir)
+    public void Move(float[] dir)
     {
         //SendMatchStateAsync(매치아이디, 0, 보낼정보, 수신자 명단) : 현재 상태를 보내는 함수
         //수신자 명단은 아무것도 적지 않는 경우
-        vector3.x = dir.x;
-        vector3.y = dir.y;
-        vector3.z = dir.z;
-        socket.SendMatchStateAsync(match.Id, 100, JsonConvert.SerializeObject(vector3));
+        NetworkPacket packet = new NetworkPacket()
+        {
+            packetType = NetworkOrder.PlayerMove,
+            packetBody = JsonConvert.SerializeObject(dir)
+        };
+
+        socket.SendMatchStateAsync(match.Id, (int)NetworkOrder.PlayerMove, JsonConvert.SerializeObject(packet));
     }
     public void Look(Vector3 rotation)
     {
-        vector3.x = rotation.x;
-        vector3.y = rotation.y;
-        vector3.z = rotation.z;
-        socket.SendMatchStateAsync(match.Id, 101, JsonConvert.SerializeObject(vector3));
+        NetworkPacket packet = new NetworkPacket()
+        {
+            packetType = NetworkOrder.PlayerMove,
+            packetBody = JsonConvert.SerializeObject(new float[] { rotation.x, rotation.y, rotation.z })
+        };
+
+        socket.SendMatchStateAsync(match.Id, (int)NetworkOrder.PlayerRotation, JsonConvert.SerializeObject(packet));
+    }
+
+    public void Ping()
+    {
+        NetworkPacket packet = new NetworkPacket()
+        {
+            packetType = NetworkOrder.PlayerMove,
+            packetBody = DateTimeOffset.Now.ToUnixTimeMilliseconds() + ""
+        };
+
+        socket.SendMatchStateAsync(match.Id, (int)NetworkOrder.PingPong, JsonConvert.SerializeObject(packet));
+    }
+
+    public void SendPacket(NetworkOrder order, string msg)
+    {
+        NetworkPacket packet = new NetworkPacket()
+        {
+            packetType = order,
+            packetBody = msg
+        };
+
+        socket.SendMatchStateAsync(match.Id, (int)order, JsonConvert.SerializeObject(packet));
     }
 
     void OtherInfo(IMatchState state)
     {
-        var aa = JsonConvert.DeserializeObject<Vector3Class>(Encoding.UTF8.GetString(state.State));
-        switch (state.OpCode)
+        var aa = JsonConvert.DeserializeObject<NetworkPacket>(Encoding.UTF8.GetString(state.State));
+        switch ((NetworkOrder)state.OpCode)
         {
-            case 100:
-                otherPlayer.Move(new Vector3(aa.x, aa.y, aa.z));
+            case NetworkOrder.PlayerMove:
+                float[] dirF = JsonConvert.DeserializeObject<float[]>(aa.packetBody);
+                otherPlayer.Move(dirF);
                 break;
-            case 101:
-                UnityMainThreadDispatcher.Instance().Enqueue(() => otherPlayerTransform.localEulerAngles = new Vector3(aa.x, aa.y, aa.z));
+            case NetworkOrder.PlayerRotation:
+                float[] rot = JsonConvert.DeserializeObject<float[]>(aa.packetBody);
+                UnityMainThreadDispatcher.Instance().Enqueue(() => otherPlayerTransform.localEulerAngles = new Vector3(rot[0], rot[1], rot[2]));
+                break;
+            case NetworkOrder.PlayerGuard:
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.GuardStart(); });
+                break;
+            case NetworkOrder.PlayerGuardEnd:
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.GuardEnd(); });
+                break;
+            case NetworkOrder.PlayerAttack:
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.Attack(); });
+                break;
+            case NetworkOrder.PingPong:
+                Debug.Log("Ping Pong Diff : " + (DateTimeOffset.Now.ToUnixTimeMilliseconds() - long.Parse(aa.packetBody)));
                 break;
         }
     }

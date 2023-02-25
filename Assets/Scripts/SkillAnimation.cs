@@ -10,6 +10,7 @@ public class SkillAnimation : StateMachineBehaviour //MonoBehaviour
     private AttackTargetManager attackTarget;
     public GameObject effect; //이펙트의 원본
 
+    public bool isLocalPlayer;
     public enum SkillType
     {
         A,
@@ -29,9 +30,18 @@ public class SkillAnimation : StateMachineBehaviour //MonoBehaviour
 
     private void Awake()
     {
-        parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
-        condition = parent.GetComponent<PlayerCondition>();
-        attackTarget = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<AttackTargetManager>();
+        if (isLocalPlayer)
+        {
+            attackTarget = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<AttackTargetManager>();
+            parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
+            condition = parent.GetComponent<PlayerCondition>();
+        }
+        else
+        {
+            attackTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<AttackTargetManager>();
+            parent = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); //PlayerInpur for문으로 AttackAnimation에 할당하는 방법으로 바꿀예정
+            condition = parent.GetComponent<PlayerCondition>();
+        }
 
         switch (skillType)
         {
