@@ -207,6 +207,7 @@ public class Network : MonoBehaviour
             case NetworkOrder.PingPong:
                 Debug.Log("Ping Pong Diff : " + (DateTimeOffset.Now.ToUnixTimeMilliseconds() - long.Parse(aa.packetBody)));
                 break;
+
         }
     }
 }
