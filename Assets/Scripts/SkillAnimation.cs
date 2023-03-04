@@ -46,31 +46,31 @@ public class SkillAnimation : StateMachineBehaviour //MonoBehaviour
         switch (skillType)
         {
             case SkillType.A:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 0, 0), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 0, 0), parent.transform);
                 break;
             case SkillType.B:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 90, 0), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 90, 0), parent.transform);
                 break;
             case SkillType.C:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 90, 0), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 90, 0), parent.transform);
                 break;
             case SkillType.D:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 180, 0), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 180, 0), parent.transform);
                 break;
             case SkillType.E:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 180, -50), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 180, -50), parent.transform);
                 break;
             case SkillType.F:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 180, -50), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 180, -50), parent.transform);
                 break;
             case SkillType.G:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 180, -50), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 180, -50), parent.transform);
                 break;
             case SkillType.H:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 180, -50), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 180, -50), parent.transform);
                 break;
             case SkillType.I:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 180, -50), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 180, -50), parent.transform);
                 break;
         }
         effect.SetActive(false);

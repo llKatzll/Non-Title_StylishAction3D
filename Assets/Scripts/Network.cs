@@ -29,8 +29,15 @@ public class Network : MonoBehaviour
     public enum NetworkOrder
     {
         PlayerMove = 100, //움직임
+
+        PlayerRunStart, //
+        PlayerRunEnd, //
+
         PlayerRotation, //바라보는 방향
-        PlayerAttack, //공격
+
+        PlayerAttackStart, //공격 시작 (다른 동작 > 공격 진입)
+        PlayerAttack, //공격 중일때, 다음 공격 (공격에서 > 다음 공격)
+
         PlayerSkill, //스킬 사용
         PlayerJump,
 
@@ -90,13 +97,18 @@ public class Network : MonoBehaviour
     public async void OnMatchMakerReceived(IMatchmakerMatched matched) //매치메이킹 성공시 호출되는 함수
     {
         socket.ReceivedMatchmakerMatched -= OnMatchMakerReceived;
+        socket.ReceivedMatchPresence += MatchPresence;
         Debug.Log("매치가 생성되었습니다. " + matched.MatchId);
 
         match = await socket.JoinMatchAsync(matched);
         matchCreated = true;
 
-        //매치에 참여하고 있는 참가자 명단
-        var users = match.Presences.GetEnumerator();
+        socket.ReceivedMatchState += OtherInfo;
+    }
+
+    public void MatchPresence(IMatchPresenceEvent presenceEvent)
+    {
+        var users = presenceEvent.Joins.GetEnumerator();
         var i = 0;
         while (users.MoveNext())
         {
@@ -108,9 +120,6 @@ public class Network : MonoBehaviour
         }
 
         UserIndex = i;
-
-        socket.ReceivedMatchState += OtherInfo;
-
     }
     public async void MatchMakingStart()
     {
@@ -201,13 +210,30 @@ public class Network : MonoBehaviour
             case NetworkOrder.PlayerGuardEnd:
                 UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.GuardEnd(); });
                 break;
+            case NetworkOrder.PlayerAttackStart:
+                Debug.LogAssertion("Other Player Attacked!");
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.AttackStart(); });
+                break;
             case NetworkOrder.PlayerAttack:
-                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.Attack(); });
+                Debug.LogAssertion("Other Player Attacked!");
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.Attack(bool.Parse(aa.packetBody)); });
+                break;
+            case NetworkOrder.PlayerJump:
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.Jump(); });
                 break;
             case NetworkOrder.PingPong:
                 Debug.Log("Ping Pong Diff : " + (DateTimeOffset.Now.ToUnixTimeMilliseconds() - long.Parse(aa.packetBody)));
                 break;
-
+            case NetworkOrder.PlayerSkill:
+                Dictionary<string, int> map = JsonConvert.DeserializeObject<Dictionary<string, int>>(aa.packetBody);
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.SkillUse((SkillCommand.Skill)map["skill"]); });
+                break;
+            case NetworkOrder.PlayerRunStart:
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.RunStart(); });
+                break;
+            case NetworkOrder.PlayerRunEnd:
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.RunEnd(); });
+                break;
         }
     }
 }

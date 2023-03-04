@@ -44,32 +44,30 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
         switch (attackType) // 스킬 위치값 벡터가 위치 쿼터니언이 로테이션
         {
             case AttackType.A:
-                effect = Instantiate(effect, new Vector3(-0.0307480991f, 1.2700001f, 0.189999998f), Quaternion.Euler(30, -100, -200), parent.transform);
+                effect = Instantiate(effect, new Vector3(-0.0307480991f, 1.2700001f, 0.189999998f) + parent.transform.position, Quaternion.Euler(30, -100, -200), parent.transform);
                 break;
             case AttackType.B:
-                effect = Instantiate(effect, new Vector3(-0.0500000007f, 1.10295975f, -0.0782125294f), Quaternion.Euler(86.5657806f, 87.8785095f, 66.9312592f), parent.transform);
+                effect = Instantiate(effect, new Vector3(-0.0500000007f, 1.10295975f, -0.0782125294f) + parent.transform.position, Quaternion.Euler(86.5657806f, 87.8785095f, 66.9312592f), parent.transform);
                 effect.transform.localScale = new Vector3(0.800000012f, 0.800000012f, 1);
                 break;
             case AttackType.C1:
-                effect = Instantiate(effect, new Vector3(0, 1, 1.09f), Quaternion.Euler(0, 0, 0), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 1.09f) + parent.transform.position, Quaternion.Euler(0, 0, 0), parent.transform);
                 effect.transform.localScale = new Vector3(1.57f, 1.57f, 1);
                 break;
             case AttackType.C2:
-                effect = Instantiate(effect, new Vector3(0, 1, 0), Quaternion.Euler(0, 90, 90), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0) + parent.transform.position, Quaternion.Euler(0, 90, 90), parent.transform);
                 break;
             case AttackType.D:
-                effect = Instantiate(effect, new Vector3(0, 1, 0.369999886f), Quaternion.Euler(0.331470579f, 358.565155f, 5.0682826f), parent.transform);
+                effect = Instantiate(effect, new Vector3(0, 1, 0.369999886f) + parent.transform.position, Quaternion.Euler(0.331470579f, 358.565155f, 5.0682826f), parent.transform);
                 effect.transform.localScale = new Vector3(1.20000005f, 0.800000012f, 1);
                 break;
             case AttackType.E:
-                effect = Instantiate(effect, new Vector3(0.0774749517f, 0.974506676f, -0.0287958607f), Quaternion.Euler(351.56955f, 185.288879f, 101.211784f), parent.transform);
+                effect = Instantiate(effect, new Vector3(0.0774749517f, 0.974506676f, -0.0287958607f) + parent.transform.position, Quaternion.Euler(351.56955f, 185.288879f, 101.211784f), parent.transform);
                 effect.transform.localScale = new Vector3(0.100000001f, 0.100000001f, 1);
                 break;
         }
-        //                   원본  , 위치        , 로테이션회전값,            부모
         effect.SetActive(false);
     }
-
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

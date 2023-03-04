@@ -1,3 +1,4 @@
+using Nakama.TinyJson;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,12 @@ using UnityEngine.SceneManagement;
 public class SkillCommand : MonoBehaviour
 {
     public PlayerCondition condition;
+    private Network network;
 
     private void Start()
     {
         condition = GetComponent<PlayerCondition>();
+        network = FindObjectOfType<Network>();
     }
 
     public enum Skill
@@ -22,6 +25,7 @@ public class SkillCommand : MonoBehaviour
         F,
         G,
         H,
+        DodgeBack,
     }
 
     private Dictionary<string, Skill> whileDodgeCommand = new Dictionary<string, Skill>() {
@@ -131,6 +135,13 @@ public class SkillCommand : MonoBehaviour
                     case Skill.G:
                         condition.StaminaUse(300);
                         animator.CrossFade("Skill_G", .25f);
+                        Dictionary<string, int> map = new Dictionary<string, int>()
+                        {
+                            {
+                                "skill", (int) Skill.G
+                            }
+                        };
+                        network.SendPacket(Network.NetworkOrder.PlayerSkill, map.ToJson());
                         break;
                 }
             }
@@ -148,14 +159,35 @@ public class SkillCommand : MonoBehaviour
                     case Skill.A:
                         condition.StaminaUse(150);
                         animator.CrossFade("Skill_A", .25f);
+                        Dictionary<string, int> map = new Dictionary<string, int>()
+                        {
+                            {
+                                "skill", (int) Skill.A
+                            }
+                        };
+                        network.SendPacket(Network.NetworkOrder.PlayerSkill, map.ToJson());
                         break;
                     case Skill.B:
                         condition.StaminaUse(150);
                         animator.CrossFade("Skill_B", .25f);
+                        map = new Dictionary<string, int>()
+                        {
+                            {
+                                "skill", (int) Skill.B
+                            }
+                        };
+                        network.SendPacket(Network.NetworkOrder.PlayerSkill, map.ToJson());
                         break;
                     case Skill.C:
                         condition.StaminaUse(150);
                         animator.CrossFade("Skill_C", .25f);
+                        map = new Dictionary<string, int>()
+                        {
+                            {
+                                "skill", (int) Skill.C
+                            }
+                        };
+                        network.SendPacket(Network.NetworkOrder.PlayerSkill, map.ToJson());
                         break;
                 }
             }
@@ -171,6 +203,14 @@ public class SkillCommand : MonoBehaviour
             {
                 condition.StaminaUse(100);
                 animator.CrossFade("Dodge_Back", .25f);
+
+                Dictionary<string, int> map = new Dictionary<string, int>()
+                        {
+                            {
+                                "skill", (int) Skill.DodgeBack
+                            }
+                        };
+                network.SendPacket(Network.NetworkOrder.PlayerSkill, map.ToJson());
                 _tmpCommand = "";
                 return;
             }
@@ -185,6 +225,13 @@ public class SkillCommand : MonoBehaviour
                     case Skill.H:
                         condition.StaminaUse(200);
                         animator.CrossFade("Skill_H", .25f);
+                        Dictionary<string, int> map = new Dictionary<string, int>()
+                        {
+                            {
+                                "skill", (int) Skill.H
+                            }
+                        };
+                        network.SendPacket(Network.NetworkOrder.PlayerSkill, map.ToJson());
                         break;
                 }
             }

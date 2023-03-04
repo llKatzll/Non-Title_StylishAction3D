@@ -13,9 +13,9 @@ public class CameraRotater : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
     //public CinemachineFreeLook playerCam;
-    void Update()
+    void FixedUpdate()
     {
-        if (transform.CompareTag("LocalPlayer"))
+        if (!transform.CompareTag("LocalPlayer"))
         {
             return;
         }

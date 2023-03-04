@@ -17,13 +17,11 @@ public class AttackTarget : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("LocalPlayer")) return;
         targets.Add(other.gameObject);
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("LocalPlayer")) return;
         targets.Remove(other.gameObject);
     }
 }
