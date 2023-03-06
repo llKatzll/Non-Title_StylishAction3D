@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/Lobby.unity
+- path: "Assets/\uBCF8\uAC8C\uC784/Scenes/Scenes_Grruzam_Animation.unity"
   isLoaded: 1
   isActive: 1
   isSubScene: 0
