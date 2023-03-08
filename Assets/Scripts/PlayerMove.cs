@@ -13,7 +13,7 @@ public class PlayerMove : MonoBehaviour
     Animator animator;
     public float runspeed;
     public float threecomboendtiming;
-    long lastForward; //¸¶Áö¸·À¸·Î W¸¦ ´­·¶´ø ½Ã°£
+    long lastForward; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Wï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
     #endregion
 
     public float speed;
@@ -32,7 +32,7 @@ public class PlayerMove : MonoBehaviour
 
         for (int i = 0; i < 10; i++)
         {
-            yield return null; //1ÇÁ·¹ÀÓÀ» ´ë±âÇÏ´Â ÀÛ¾÷ (10ÇÁ·¹ÀÓÀ» ´ë±âÇÑ´Ù)
+            yield return null; //1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Û¾ï¿½ (10ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½)
         }
 
         if (!transform.CompareTag("LocalPlayer"))
@@ -74,16 +74,16 @@ public class PlayerMove : MonoBehaviour
 
     public void damaged(Transform hitter, int downStat)
     {
-        //hitter : Å¸°ÝÀÚ
-        //transform : ÇÇ°ÝÀÚ
-        //Å¸°ÝÀÚ¿Í ÇÇ°ÝÀÚÀÇ Tag¸¦ ºñ±³ÇØ
-        if (hitter.CompareTag(transform.tag)) //ÅÂ±×°¡ ¼­·Î °°´Ù¸é 
+        //hitter : Å¸ï¿½ï¿½ï¿½ï¿½
+        //transform : ï¿½Ç°ï¿½ï¿½ï¿½
+        //Å¸ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ Tagï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (hitter.CompareTag(transform.tag)) //ï¿½Â±×°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ 
         {
             return;
         }
 
         Debug.Log(hitter.name);
-        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Down")) //´Ù¿î´çÇÏ´Â ÁßÀÏ¶§¿¡´Â ÇÇ°Ý´çÇÏÁö ¾Ê´Â´Ù.
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Down")) //ï¿½Ù¿ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
         {
             return;
         }
@@ -107,11 +107,11 @@ public class PlayerMove : MonoBehaviour
         {
             if (controller.isGrounded)
             {
-                gravity = -.1f; //Áß·ÂÀÌ Æ¯Á¤ÇÑ Èû¿¡¼­ °íÁ¤
+                gravity = -.1f; //ï¿½ß·ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
             else
             {
-                gravity -= .05f; //ÇÑ ÇÁ·¹ÀÓ´ç Áß·Â¿¡ 0.1ÀÌ¶ó´Â ÈûÀ» ´õÇØÁØ´Ù
+                gravity -= .05f; //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó´ï¿½ ï¿½ß·Â¿ï¿½ 0.1ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½
             }
 
             if (animator.GetBool("isGuarding"))
@@ -126,9 +126,9 @@ public class PlayerMove : MonoBehaviour
                 }
             }
 
-            if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //°ø°ÝÁßÀÌ ¾Æ´Ï"¸é¼­"
+            if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½"ï¿½é¼­"
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //½ºÅ³ »ç¿ëµµ
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //ï¿½ï¿½Å³ ï¿½ï¿½ëµµ
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")))
             {
                 if (animator.GetBool("isRunning"))
@@ -163,14 +163,14 @@ public class PlayerMove : MonoBehaviour
         animator.SetInteger("Horizontal", (int)Input.GetAxisRaw("Horizontal"));
         animator.SetInteger("Vertical", (int)Input.GetAxisRaw("Vertical"));
 
-        if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //°ø°ÝÁßÀÌ ¾Æ´Ï"¸é¼­"
+        if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½"ï¿½é¼­"
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //½ºÅ³ »ç¿ëµµ
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //ï¿½ï¿½Å³ ï¿½ï¿½ëµµ
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")))
         {
-            Vector3 dir = (transform.right * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * (animator.GetBool("isRunning") ? runspeed : 1)) + //°¡·Î
-            (transform.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //¼¼·Î
-            transform.up * gravity; //À§¾Æ·¡
+            Vector3 dir = (transform.right * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal") * (animator.GetBool("isRunning") ? runspeed : 1)) + //ï¿½ï¿½ï¿½ï¿½
+            (transform.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //ï¿½ï¿½ï¿½ï¿½
+            transform.up * gravity; //ï¿½ï¿½ï¿½Æ·ï¿½
 
             network.Move(new float[] { Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical") });
 
@@ -222,7 +222,7 @@ public class PlayerMove : MonoBehaviour
             network.SendPacket(Network.NetworkOrder.PlayerRunStart, null);
         }
 
-        //´õ ÀÌ»óÀÇ ÀÔ·ÂÀÌ ¾øÀ¸´Ï±î || 
+        //ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ || 
         if (Input.GetAxisRaw("Vertical") == 0 || !condition.CanUseStamina())
         {
             animator.SetBool("isRunning", false);
@@ -231,16 +231,16 @@ public class PlayerMove : MonoBehaviour
 
         if (controller.isGrounded)
         {
-            gravity = -.1f; //Áß·ÂÀÌ Æ¯Á¤ÇÑ Èû¿¡¼­ °íÁ¤
+            gravity = -.1f; //ï¿½ß·ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
-            gravity -= .05f; //ÇÑ ÇÁ·¹ÀÓ´ç Áß·Â¿¡ 0.1ÀÌ¶ó´Â ÈûÀ» ´õÇØÁØ´Ù
+            gravity -= .05f; //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó´ï¿½ ï¿½ß·Â¿ï¿½ 0.1ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½
         }
 
         if (Input.GetMouseButtonDown(0) && (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard"))
             && (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill"))
-            && (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge"))) //ÁÂÅ¬¸¯À» ´©¸£´Â °æ¿ì
+            && (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge"))) //ï¿½ï¿½Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         {
             if (!condition.CanUseStamina())
             {
@@ -248,13 +248,13 @@ public class PlayerMove : MonoBehaviour
             }
             if (!animator.GetBool("isAttacking") && !animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
             {
-                network.SendPacket(Network.NetworkOrder.PlayerAttackStart, null); //°ø°Ý ½ÃÀÛ
+                network.SendPacket(Network.NetworkOrder.PlayerAttackStart, null); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 animator.CrossFade("AttackStart", .25f, 0);
                 animator.SetBool("isThreeCombo", false);
                 goto NEXT_ATTACK;
             }
 
-            if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .1f) //¾Ö´Ï¸ÞÀÌ¼Ç 10ÆÛ¼¾Æ®µµ ¾ÈµÇ¸é ¼±ÀÔ·Â ÆÇ´ÜÇÏ°í ¸·±â
+            if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .1f) //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ 10ï¿½Û¼ï¿½Æ®ï¿½ï¿½ ï¿½ÈµÇ¸ï¿½ ï¿½ï¿½ï¿½Ô·ï¿½ ï¿½Ç´ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½
             {
                 goto NEXT_ATTACK;
             }
@@ -288,7 +288,7 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F) && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) &&
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge"))) //¹æ¾î¸ðµå
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge"))) //ï¿½ï¿½ï¿½ï¿½ï¿½
         {
             if (!animator.GetBool("isGuarding") && !animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard"))
             {
@@ -302,26 +302,26 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKey(KeyCode.F))
         {
-            if (condition.CanUseStamina()) //FÅ°¸¦ ²Ú ´©¸£°íÀÖÀ¸¸é¼­, ½ºÅÂ¹Ì³ª¸¦ »ç¿ëÇÒ ¼ö ÀÖ´Â »óÈ²ÀÌ¸é
+            if (condition.CanUseStamina()) //FÅ°ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é¼­, ï¿½ï¿½ï¿½Â¹Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½È²ï¿½Ì¸ï¿½
             {
-                condition.StaminaUse(2); //½ºÅÂ¹Ì³ª¸¦ »ç¿ë
+                condition.StaminaUse(2); //ï¿½ï¿½ï¿½Â¹Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             }
-            else //½ºÅÂ¹Ì³ª¸¦ »ç¿ëÇÒ ¼ö ¾ø´Â »óÈ²ÀÌ¶ó¸é
+            else //ï¿½ï¿½ï¿½Â¹Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²ï¿½Ì¶ï¿½ï¿½
             {
-                network.SendPacket(Network.NetworkOrder.PlayerGuardEnd, null); //°¡µå Áß´ÜÀ» ½ÃÀÛÇÑ´Ù.
-                animator.SetBool("isGuarding", false); //°¡µå Áß´Ü
+                network.SendPacket(Network.NetworkOrder.PlayerGuardEnd, null); //ï¿½ï¿½ï¿½ï¿½ ï¿½ß´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+                animator.SetBool("isGuarding", false); //ï¿½ï¿½ï¿½ï¿½ ï¿½ß´ï¿½
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.F) || (!Input.GetKey(KeyCode.F) && animator.GetBool("isGuarding"))) //¹æ¾î ¸ðµå (¶§´Âµ¥ °É¸®´Â ½Ã°£ °Ë»ç ¿¹Á¤)
+        if (Input.GetKeyUp(KeyCode.F) || (!Input.GetKey(KeyCode.F) && animator.GetBool("isGuarding"))) //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Âµï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½)
         {
             network.SendPacket(Network.NetworkOrder.PlayerGuardEnd, null);
             animator.SetBool("isGuarding", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //°ø°ÝÁßÀÌ ¾Æ´Ï"¸é¼­"
+        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½"ï¿½é¼­"
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //½ºÅ³ »ç¿ëµµ
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //ï¿½ï¿½Å³ ï¿½ï¿½ëµµ
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")) &&
             (!animator.GetNextAnimatorStateInfo(0).IsTag("isJumping") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isJumping")))
         {
@@ -342,9 +342,9 @@ public class PlayerMove : MonoBehaviour
 
     public void Jump()
     {
-        if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //°ø°ÝÁßÀÌ ¾Æ´Ï"¸é¼­"
+        if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½"ï¿½é¼­"
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //½ºÅ³ »ç¿ëµµ
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //ï¿½ï¿½Å³ ï¿½ï¿½ëµµ
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")) &&
             (!animator.GetNextAnimatorStateInfo(0).IsTag("isJumping") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isJumping")))
         {
@@ -391,7 +391,7 @@ public class PlayerMove : MonoBehaviour
         animator.SetBool("isAttacking", true);
     }
 
-    //¸ÖÆ¼ÇÃ·¹ÀÌ¾î - ´Ù¸¥ À¯Àú°¡ ¿òÁ÷ÀÌ´Â ÇÔ¼ö
+    //ï¿½ï¿½Æ¼ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ - ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½Ô¼ï¿½
     public void Move(float[] dirF)
     {
         UnityMainThreadDispatcher.Instance().Enqueue(delegate
@@ -399,14 +399,14 @@ public class PlayerMove : MonoBehaviour
             animator.SetInteger("Horizontal", (int)dirF[0]);
             animator.SetInteger("Vertical", (int)dirF[1]);
 
-            if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //°ø°ÝÁßÀÌ ¾Æ´Ï"¸é¼­"
+            if ((!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½"ï¿½é¼­"
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
-            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //½ºÅ³ »ç¿ëµµ
+            (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //ï¿½ï¿½Å³ ï¿½ï¿½ëµµ
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")))
             {
-                Vector3 dir = (transform.right * speed * Time.deltaTime * dirF[0] * (animator.GetBool("isRunning") ? runspeed : 1)) + //°¡·Î
-                (transform.forward * speed * Time.deltaTime * dirF[1] * (animator.GetBool("isRunning") ? runspeed : 1)) + //¼¼·Î
-                transform.up * gravity; //À§¾Æ·¡
+                Vector3 dir = (transform.right * speed * Time.deltaTime * dirF[0] * (animator.GetBool("isRunning") ? runspeed : 1)) + //ï¿½ï¿½ï¿½ï¿½
+                (transform.forward * speed * Time.deltaTime * dirF[1] * (animator.GetBool("isRunning") ? runspeed : 1)) + //ï¿½ï¿½ï¿½ï¿½
+                transform.up * gravity; //ï¿½ï¿½ï¿½Æ·ï¿½
 
                 if (animator.GetBool("isRunning"))
                 {
