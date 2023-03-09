@@ -7,7 +7,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
     private AttackTargetManager attackTarget;
     private PlayerCondition condition;
     private PlayerMove parent;
-    public GameObject effect; //ÀÌÆåÆ®ÀÇ ¿øº»
+    public GameObject effect; //ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     public bool isLocalPlayer;
 
@@ -30,18 +30,18 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
         if (isLocalPlayer)
         {
             attackTarget = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<AttackTargetManager>();
-            parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur for¹®À¸·Î AttackAnimation¿¡ ÇÒ´çÇÏ´Â ¹æ¹ýÀ¸·Î ¹Ù²Ü¿¹Á¤
+            parent = GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<PlayerMove>(); //PlayerInpur forï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ AttackAnimationï¿½ï¿½ ï¿½Ò´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ü¿ï¿½ï¿½ï¿½
             condition = parent.GetComponent<PlayerCondition>();
         }
         else
         {
             attackTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<AttackTargetManager>();
-            parent = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); //PlayerInpur for¹®À¸·Î AttackAnimation¿¡ ÇÒ´çÇÏ´Â ¹æ¹ýÀ¸·Î ¹Ù²Ü¿¹Á¤
+            parent = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); //PlayerInpur forï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ AttackAnimationï¿½ï¿½ ï¿½Ò´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ü¿ï¿½ï¿½ï¿½
             condition = parent.GetComponent<PlayerCondition>();
         }
 
 
-        switch (attackType) // ½ºÅ³ À§Ä¡°ª º¤ÅÍ°¡ À§Ä¡ ÄõÅÍ´Ï¾ðÀÌ ·ÎÅ×ÀÌ¼Ç
+        switch (attackType) //skill effect settings
         {
             case AttackType.A:
                 effect = Instantiate(effect, new Vector3(-0.0307480991f, 1.2700001f, 0.189999998f) + parent.transform.position, Quaternion.Euler(30, -100, -200), parent.transform);
@@ -87,7 +87,7 @@ public class AttackAnimation : StateMachineBehaviour //MonoBehaviour
         base.OnStateExit(animator, stateInfo, layerIndex);
     }
 
-    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) //¾Ö´Ï¸ÞÀÌ¼Ç ÇÑ ÇÁ·¹ÀÓ¸¶´Ù ¾÷µ¥ÀÌÆ®
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     {
         frame++;
         switch (attackType)
