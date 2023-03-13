@@ -60,13 +60,11 @@ public class PlayerCondition : MonoBehaviour
 
     public void StaminaUse(int stamina) //
     {
-
         currentStamina -= stamina;
-
-        if (!transform.CompareTag("LocalPlayer"))
-        {
-            Debug.Log(stamina + " Result : " + currentStamina);
-        }
+        //if(!transform.CompareTag("LocalPlayer"))
+        //{
+        //    Debug.Log(stamina + " Result : " + currentStamina);
+        //}
 
         if (currentStamina <= 0)
         {

@@ -22,18 +22,18 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
 
     Network network;
-
-    IEnumerator Start()
+     
+    void Start()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         condition = GetComponent<PlayerCondition>();
         network = FindObjectOfType<Network>();
 
-        for (int i = 0; i < 10; i++)
-        {
-            yield return null; //1�������� ����ϴ� �۾� (10�������� ����Ѵ�)
-        }
+        //for(int i = 0; i < 5; i++)
+        //{
+        //    yield return new WaitForSeconds(1); //1�������� ����ϴ� �۾� (10�������� ����Ѵ�)
+        //}
 
         if (!transform.CompareTag("LocalPlayer"))
         {
@@ -43,27 +43,25 @@ public class PlayerMove : MonoBehaviour
 
         if (network.UserIndex == 0)
         {
-            if (transform.CompareTag("LocalPlayer"))
+            if(transform.CompareTag("LocalPlayer"))
             {
-                transform.position = new Vector3(0, 0, 0);
+                controller.Move(Vector3.zero);
                 Debug.Log("LocalPlayer" + "0" + transform.position);
-            }
-            else
+            } else
             {
-                transform.position = new Vector3(0, 0, 10);
+                controller.Move(transform.forward * 10);
                 Debug.Log("Player" + "0" + transform.position);
             }
-        }
-        else
+        } else
         {
             if (transform.CompareTag("LocalPlayer"))
             {
-                transform.position = new Vector3(0, 0, 10);
+                controller.Move(transform.forward * 10);
                 Debug.Log("LocalPlayer" + "1" + transform.position);
             }
             else
             {
-                transform.position = new Vector3(0, 0, 0);
+                controller.Move(Vector3.zero);
                 Debug.Log("Player" + "1" + transform.position);
             }
         }
@@ -103,12 +101,16 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!transform.CompareTag("LocalPlayer") || network.otherPlayer == null)
+        if(network.otherPlayer == null)
+        {
+            return;
+        }
+        if (!transform.CompareTag("LocalPlayer"))
         {
             if (controller.isGrounded)
             {
                 gravity = -.1f; //�߷��� Ư���� ������ ����
-            }
+            } 
             else
             {
                 gravity -= .05f; //�� �����Ӵ� �߷¿� 0.1�̶�� ���� �����ش�
@@ -172,7 +174,11 @@ public class PlayerMove : MonoBehaviour
             (transform.forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical") * (animator.GetBool("isRunning") ? runspeed : 1)) + //����
             transform.up * gravity; //���Ʒ�
 
-            network.Move(new float[] { Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical") });
+            //���Ⱑ �߰�
+            var destination = transform.position + dir;
+            //End
+
+            network.Move(new float[] { Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), destination.x, destination.y, destination.z });
 
             if (animator.GetBool("isRunning"))
             {
@@ -204,6 +210,10 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        if (network.otherPlayer == null)
+        {
+            return;
+        }
         if (!transform.CompareTag("LocalPlayer"))
         {
             return;
@@ -216,10 +226,10 @@ public class PlayerMove : MonoBehaviour
                 if (condition.CanUseStamina())
                 {
                     animator.SetBool("isRunning", true); //
+                    network.SendPacket(Network.NetworkOrder.PlayerRunStart, null);
                 }
             }
             lastForward = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            network.SendPacket(Network.NetworkOrder.PlayerRunStart, null);
         }
 
         //�� �̻��� �Է��� �����ϱ� || 
@@ -302,24 +312,23 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKey(KeyCode.F))
         {
-            if (condition.CanUseStamina()) //FŰ�� �� �����������鼭, ���¹̳��� ����� �� �ִ� ��Ȳ�̸�
+            if(condition.CanUseStamina()) //FŰ�� �� �����������鼭, ���¹̳��� ����� �� �ִ� ��Ȳ�̸�
             {
                 condition.StaminaUse(2); //���¹̳��� ���
-            }
-            else //���¹̳��� ����� �� ���� ��Ȳ�̶��
+            } else //���¹̳��� ����� �� ���� ��Ȳ�̶��
             {
                 network.SendPacket(Network.NetworkOrder.PlayerGuardEnd, null); //���� �ߴ��� �����Ѵ�.
                 animator.SetBool("isGuarding", false); //���� �ߴ�
             }
         }
-
+        
         if (Input.GetKeyUp(KeyCode.F) || (!Input.GetKey(KeyCode.F) && animator.GetBool("isGuarding"))) //��� ��� (���µ� �ɸ��� �ð� �˻� ����)
         {
             network.SendPacket(Network.NetworkOrder.PlayerGuardEnd, null);
             animator.SetBool("isGuarding", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //�������� �ƴ�"�鼭"
+        if(Input.GetKeyDown(KeyCode.Space) && controller.isGrounded && (!animator.GetNextAnimatorStateInfo(0).IsTag("Attack") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) && //�������� �ƴ�"�鼭"
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard")) &&
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Skill") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) && //��ų ��뵵
             (!animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")) &&
@@ -384,13 +393,13 @@ public class PlayerMove : MonoBehaviour
     }
     public void Attack(bool b)
     {
-        if (b)
+        if(b)
         {
             animator.SetBool("isThreeCombo", true);
         }
         animator.SetBool("isAttacking", true);
     }
-
+    
     //��Ƽ�÷��̾� - �ٸ� ������ �����̴� �Լ�
     public void Move(float[] dirF)
     {
@@ -407,6 +416,10 @@ public class PlayerMove : MonoBehaviour
                 Vector3 dir = (transform.right * speed * Time.deltaTime * dirF[0] * (animator.GetBool("isRunning") ? runspeed : 1)) + //����
                 (transform.forward * speed * Time.deltaTime * dirF[1] * (animator.GetBool("isRunning") ? runspeed : 1)) + //����
                 transform.up * gravity; //���Ʒ�
+
+                //�߰�
+                dir = new Vector3(dirF[2], dirF[3], dirF[4]) - transform.position;
+                //End
 
                 if (animator.GetBool("isRunning"))
                 {
@@ -439,7 +452,7 @@ public class PlayerMove : MonoBehaviour
 
     public void SkillUse(SkillCommand.Skill skillType)
     {
-        switch (skillType)
+        switch(skillType)
         {
             case SkillCommand.Skill.G:
                 condition.StaminaUse(300);

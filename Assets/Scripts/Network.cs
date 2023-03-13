@@ -8,78 +8,82 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Network : MonoBehaviour
 {
 
 
     public IClient client;
-    public ISession session;
+    public ISession session; 
     public ISocket socket;
 
     private IMatch match;
-    private IMatchmakerTicket matchmakerTicket; //ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½Å·ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ Æ¼ï¿½ï¿½
+    private IMatchmakerTicket matchmakerTicket; //¸ÅÄ¡¸ÞÀÌÅ·¿¡ ÇÊ¿äÇÑ Æ¼ÄÏ
     private bool matchCreated;
 
-    public PlayerMove otherPlayer; //ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
+    public PlayerMove otherPlayer; //ÀÌµ¿ °ü·Ã
     public Transform otherPlayerTransform; //rotation
 
     public int UserIndex = 0;
 
-    public enum NetworkOrder
-    {
-        PlayerMove = 100, //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public enum NetworkOrder {
+        PlayerMove = 100, //¿òÁ÷ÀÓ
 
         PlayerRunStart, //
         PlayerRunEnd, //
 
-        PlayerRotation, //ï¿½Ù¶óº¸´ï¿½ ï¿½ï¿½ï¿½ï¿½
+        PlayerRotation, //¹Ù¶óº¸´Â ¹æÇâ
 
-        PlayerAttackStart, //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
-        PlayerAttack, //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¶ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+        PlayerAttackStart, //°ø°Ý ½ÃÀÛ (´Ù¸¥ µ¿ÀÛ > °ø°Ý ÁøÀÔ)
+        PlayerAttack, //°ø°Ý ÁßÀÏ¶§, ´ÙÀ½ °ø°Ý (°ø°Ý¿¡¼­ > ´ÙÀ½ °ø°Ý)
 
-        PlayerSkill, //ï¿½ï¿½Å³ ï¿½ï¿½ï¿½
+        PlayerSkill, //½ºÅ³ »ç¿ë
         PlayerJump,
 
-        PlayerGuard, //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
-        PlayerGuardEnd, //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        PlayerGuard, //°¡µå ¹öÆ°
+        PlayerGuardEnd, //°¡µå ¹öÆ° ¶ÂÀ»¶§
 
         PingPong
     }
 
     public struct NetworkPacket
     {
-        public NetworkOrder packetType; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        public NetworkOrder packetType; //Á¤º¸ÀÇ Á¾·ù
         public string packetBody;
     }
 
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ç¾îµµ ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        DontDestroyOnLoad(gameObject); //¾ÀÀÌ ÀüÈ¯µÇ¾îµµ ÆÄ±«µÇÁö ¾ÊÀ½
     }
 
     // Start is called before the first frame update
     async void Start()
     {
-        client = new Client("http", "222.116.135.178", 7350, "defaultkey", UnityWebRequestAdapter.Instance);
-
+        //client = new Client("http", "222.116.135.178", 7350, "defaultkey", UnityWebRequestAdapter.Instance);
+        client = new Client("http", "localhost", 7350, "defaultkey", UnityWebRequestAdapter.Instance);
 
         var expiredDate = DateTime.UtcNow.AddDays(1);
-        if (session == null || session.HasExpired(expiredDate)) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
+        if (session == null || session.HasExpired(expiredDate)) //¼¼¼ÇÀÌ ¸¸·áµÇ¾ú´Â°¡?
         {
             var deviceId = PlayerPrefs.GetString("deviceId", SystemInfo.deviceUniqueIdentifier);
-
+#if UNITY_EDITOR
+            deviceId = Guid.NewGuid().ToString();
+#endif
             if (deviceId == SystemInfo.unsupportedIdentifier)
             {
                 deviceId = Guid.NewGuid().ToString();
             }
 
+#if !UNITY_EDITOR
             PlayerPrefs.SetString("deviceId", deviceId);
+#endif
 
             try
             {
-                session = await client.AuthenticateDeviceAsync(deviceId, name, true);
+                session = await client.AuthenticateDeviceAsync(deviceId, name + new System.Random().Next(1000), true);
                 PlayerPrefs.SetString("sessionToken", session.AuthToken);
                 Debug.Log(session);
                 //SocketInit();
@@ -94,11 +98,11 @@ public class Network : MonoBehaviour
         }
     }
 
-    public async void OnMatchMakerReceived(IMatchmakerMatched matched) //ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½Å· ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½Ô¼ï¿½
+    public async void OnMatchMakerReceived(IMatchmakerMatched matched) //¸ÅÄ¡¸ÞÀÌÅ· ¼º°ø½Ã È£ÃâµÇ´Â ÇÔ¼ö
     {
         socket.ReceivedMatchmakerMatched -= OnMatchMakerReceived;
         socket.ReceivedMatchPresence += MatchPresence;
-        Debug.Log("ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. " + matched.MatchId);
+        Debug.Log("¸ÅÄ¡°¡ »ý¼ºµÇ¾ú½À´Ï´Ù. " + matched.MatchId);
 
         match = await socket.JoinMatchAsync(matched);
         matchCreated = true;
@@ -112,7 +116,7 @@ public class Network : MonoBehaviour
         var i = 0;
         while (users.MoveNext())
         {
-            if (users.Current.UserId == session.UserId) //ï¿½ï¿½È¸ï¿½Ï¸é¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½ï¿½
+            if (users.Current.UserId == session.UserId) //¼øÈ¸ÇÏ¸é¼­ ÇöÀç ·Î±×ÀÎµÈ ¼¼¼ÇÀÇ ¾ÆÀÌµð¿Í ºñ±³
             {
                 break;
             }
@@ -126,20 +130,20 @@ public class Network : MonoBehaviour
         socket.ReceivedMatchmakerMatched += OnMatchMakerReceived;
         matchmakerTicket = await socket.AddMatchmakerAsync("*", 2, 2);
 
-        Debug.Log("ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½Å·ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. " + matchmakerTicket.Ticket);
+        Debug.Log("¸ÅÄ¡¸ÞÀÌÅ·ÀÌ ½ÃÀÛµÇ¾ú½À´Ï´Ù. " + matchmakerTicket.Ticket);
     }
 
     public async void MatchMakingStop()
     {
         socket.ReceivedMatchmakerMatched -= OnMatchMakerReceived;
         await socket.RemoveMatchmakerAsync(matchmakerTicket);
-        Debug.Log("ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½Å·ï¿½ï¿½ ï¿½ß´ÜµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ");
+        Debug.Log("¸ÅÄ¡¸ÞÀÌÅ·ÀÌ Áß´ÜµÇ¾ú½À´Ï´Ù. ");
     }
 
 
     private void Update()
     {
-        if (matchCreated)
+        if(matchCreated)
         {
             matchCreated = false;
             SceneManager.LoadScene(1);
@@ -148,25 +152,25 @@ public class Network : MonoBehaviour
 
     public void Move(float[] dir)
     {
-        //SendMatchStateAsync(ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½Ìµï¿½, 0, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½) : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
-        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½
+        //SendMatchStateAsync(¸ÅÄ¡¾ÆÀÌµð, 0, º¸³¾Á¤º¸, ¼ö½ÅÀÚ ¸í´Ü) : ÇöÀç »óÅÂ¸¦ º¸³»´Â ÇÔ¼ö
+        //¼ö½ÅÀÚ ¸í´ÜÀº ¾Æ¹«°Íµµ ÀûÁö ¾Ê´Â °æ¿ì
         NetworkPacket packet = new NetworkPacket()
         {
             packetType = NetworkOrder.PlayerMove,
             packetBody = JsonConvert.SerializeObject(dir)
         };
-
-        socket.SendMatchStateAsync(match.Id, (int)NetworkOrder.PlayerMove, JsonConvert.SerializeObject(packet));
+        
+        socket.SendMatchStateAsync(match.Id, (int) NetworkOrder.PlayerMove, JsonConvert.SerializeObject(packet));
     }
     public void Look(Vector3 rotation)
     {
         NetworkPacket packet = new NetworkPacket()
         {
             packetType = NetworkOrder.PlayerMove,
-            packetBody = JsonConvert.SerializeObject(new float[] { rotation.x, rotation.y, rotation.z })
+            packetBody = JsonConvert.SerializeObject(new float[] {rotation.x, rotation.y, rotation.z})
         };
 
-        socket.SendMatchStateAsync(match.Id, (int)NetworkOrder.PlayerRotation, JsonConvert.SerializeObject(packet));
+        socket.SendMatchStateAsync(match.Id, (int) NetworkOrder.PlayerRotation, JsonConvert.SerializeObject(packet));
     }
 
     public void Ping()
@@ -180,7 +184,7 @@ public class Network : MonoBehaviour
         socket.SendMatchStateAsync(match.Id, (int)NetworkOrder.PingPong, JsonConvert.SerializeObject(packet));
     }
 
-    public void SendPacket(NetworkOrder order, string msg)
+    public void SendPacket(NetworkOrder order, string msg) 
     {
         NetworkPacket packet = new NetworkPacket()
         {
@@ -194,7 +198,12 @@ public class Network : MonoBehaviour
     void OtherInfo(IMatchState state)
     {
         var aa = JsonConvert.DeserializeObject<NetworkPacket>(Encoding.UTF8.GetString(state.State));
-        switch ((NetworkOrder)state.OpCode)
+        if(otherPlayer == null || otherPlayerTransform == null)
+        {
+            return;
+        }
+
+        switch ((NetworkOrder) state.OpCode)
         {
             case NetworkOrder.PlayerMove:
                 float[] dirF = JsonConvert.DeserializeObject<float[]>(aa.packetBody);
@@ -226,7 +235,7 @@ public class Network : MonoBehaviour
                 break;
             case NetworkOrder.PlayerSkill:
                 Dictionary<string, int> map = JsonConvert.DeserializeObject<Dictionary<string, int>>(aa.packetBody);
-                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.SkillUse((SkillCommand.Skill)map["skill"]); });
+                UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.SkillUse((SkillCommand.Skill) map["skill"]); });
                 break;
             case NetworkOrder.PlayerRunStart:
                 UnityMainThreadDispatcher.Instance().Enqueue(() => { otherPlayer.RunStart(); });
