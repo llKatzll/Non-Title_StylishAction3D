@@ -32,24 +32,24 @@ public class SkillCommand : MonoBehaviour
         { "WWE", Skill.A },
         { "AAE", Skill.B },
         { "DDE", Skill.C },
-    }; //±¸¸£´Â µµÁß¿¡ ÀÎ½ÄµÉ Ä¿¸Çµå
+    }; //DodgeAttack
 
     private Dictionary<string, Skill> whileAttackCommnand = new Dictionary<string, Skill>() {
         { "ADSE", Skill.G },
-    }; //ÆòÅ¸ µµÁß¿¡ ÀÎ½ÄµÉ Ä¿¸Çµå
+    }; //WhileAttack
 
     private Dictionary<string, Skill> whileIdleCommand = new Dictionary<string, Skill>() {
         { "DASE", Skill.H },
-    }; //±âº» »óÅÂ¿¡¼­ ÀÎ½ÄµÉ Ä¿¸Çµå
+    }; //IdleAttack
 
     long lastCommandTime = 0L;
     Animator animator;
-    string _tmpCommand; //¿ì¸®°¡ ÀÔ·ÂÇÑ Ä¿¸Çµå (ÀÓ½Ã·Î ÀúÀåµÉ °ø°£)
+    string _tmpCommand; //Key Stroke Class
     string tmpCommand
     {
         get
         {
-            if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastCommandTime > 300) //Å° ÀÔ·Â »çÀÌ ½Ã°£ Â÷ÀÌ°¡ 0.45ÃÊ¸¦ ³Ñ±â´Â °æ¿ì
+            if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastCommandTime > 300) //Input
             {
                 _tmpCommand = "";
             }
@@ -57,7 +57,7 @@ public class SkillCommand : MonoBehaviour
         }
         set
         {
-            if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastCommandTime > 300) //Å° ÀÔ·Â »çÀÌ ½Ã°£ Â÷ÀÌ°¡ 0.45ÃÊ¸¦ ³Ñ±â´Â °æ¿ì
+            if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastCommandTime > 300) //Input
             {
                 _tmpCommand = "";
             }
@@ -120,13 +120,13 @@ public class SkillCommand : MonoBehaviour
 
     void SkillCheck()
     {
-        if (animator.GetNextAnimatorStateInfo(0).IsTag("Skill") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) //ÇöÀç ½ºÅ³ÀÌ Àç»ýÁßÀÌ¸é
+        if (animator.GetNextAnimatorStateInfo(0).IsTag("Skill") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Skill")) //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
         {
             return;
         }
-        if (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) //ÇöÀç »óÅÂ°¡ ±âº» °ø°Ý »óÅÂÀÎ°æ¿ì
+        if (animator.GetNextAnimatorStateInfo(0).IsTag("Attack") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½ï¿½
         {
-            if (whileAttackCommnand.ContainsKey(tmpCommand)) //whileAttack tmpCommand Å°°¡ Á¸ÀçÇÏ´Â °æ¿ì
+            if (whileAttackCommnand.ContainsKey(tmpCommand)) //whileAttack tmpCommand Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
             {
                 //
                 Debug.Log(whileAttackCommnand[tmpCommand]);
@@ -148,9 +148,9 @@ public class SkillCommand : MonoBehaviour
             return;
         }
 
-        if (animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")) //ÇöÀç »óÅÂ°¡ ±¸¸£±â »óÅÂÀÎ°æ¿ì
+        if (animator.GetNextAnimatorStateInfo(0).IsTag("Dodge") || animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodge")) //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½ï¿½
         {
-            if (whileDodgeCommand.ContainsKey(tmpCommand)) //whileDodge tmpCommand Å°°¡ Á¸ÀçÇÏ´Â °æ¿ì
+            if (whileDodgeCommand.ContainsKey(tmpCommand)) //whileDodge tmpCommand Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
             {
                 //
                 Debug.Log(whileDodgeCommand[tmpCommand]);
@@ -194,11 +194,11 @@ public class SkillCommand : MonoBehaviour
             return;
         }
 
-        if (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard") //!±âº» °ø°Ý && !±¸¸£±â && !¸·±â
+        if (!animator.GetNextAnimatorStateInfo(0).IsTag("Guard") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Guard") //!ï¿½âº» ï¿½ï¿½ï¿½ï¿½ && !ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ && !ï¿½ï¿½ï¿½ï¿½
             && !animator.GetNextAnimatorStateInfo(0).IsTag("isJumping") && !animator.GetCurrentAnimatorStateInfo(0).IsTag("isJumping"))
 
         {
-            //¾Æ¹«°Íµµ ¾ÈÇÏ´Â »óÅÂ
+            //ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Q))
             {
                 condition.StaminaUse(100);
@@ -215,7 +215,7 @@ public class SkillCommand : MonoBehaviour
                 return;
             }
 
-            if (whileIdleCommand.ContainsKey(tmpCommand)) //whilIdle tmpCommand Å°°¡ Á¸ÀçÇÏ´Â °æ¿ì
+            if (whileIdleCommand.ContainsKey(tmpCommand)) //whilIdle tmpCommand Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
             {
                 //
                 Debug.Log(whileIdleCommand[tmpCommand]);
