@@ -120,53 +120,53 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1660}
+      Script: {instanceID: 1776}
     - Class: 114
-      Script: {instanceID: 1664}
+      Script: {instanceID: 1780}
     - Class: 114
-      Script: {instanceID: 1826}
+      Script: {instanceID: 1946}
     - Class: 114
-      Script: {instanceID: 1978}
+      Script: {instanceID: 2112}
     - Class: 114
-      Script: {instanceID: 2394}
+      Script: {instanceID: 2532}
     - Class: 114
-      Script: {instanceID: 2412}
+      Script: {instanceID: 2550}
     - Class: 114
-      Script: {instanceID: 2502}
+      Script: {instanceID: 2642}
     - Class: 114
-      Script: {instanceID: 2534}
+      Script: {instanceID: 2674}
     - Class: 114
-      Script: {instanceID: 2536}
+      Script: {instanceID: 2676}
     - Class: 114
-      Script: {instanceID: 2602}
+      Script: {instanceID: 2742}
     - Class: 114
-      Script: {instanceID: 2664}
+      Script: {instanceID: 2804}
     - Class: 114
-      Script: {instanceID: 2698}
+      Script: {instanceID: 2838}
     - Class: 114
-      Script: {instanceID: 2730}
+      Script: {instanceID: 2870}
     - Class: 114
-      Script: {instanceID: 2834}
+      Script: {instanceID: 2976}
     - Class: 114
-      Script: {instanceID: 2912}
+      Script: {instanceID: 3054}
     - Class: 114
-      Script: {instanceID: 3030}
+      Script: {instanceID: 3172}
     - Class: 114
-      Script: {instanceID: 3310}
+      Script: {instanceID: 3454}
     - Class: 114
-      Script: {instanceID: 3382}
+      Script: {instanceID: 3526}
     - Class: 114
-      Script: {instanceID: 3460}
+      Script: {instanceID: 3604}
     - Class: 114
-      Script: {instanceID: 3550}
+      Script: {instanceID: 3694}
     - Class: 114
-      Script: {instanceID: 4352}
+      Script: {instanceID: 4514}
     - Class: 114
-      Script: {instanceID: 4414}
+      Script: {instanceID: 4576}
     - Class: 114
-      Script: {instanceID: 4798}
+      Script: {instanceID: 4966}
     - Class: 114
-      Script: {instanceID: 21748}
+      Script: {instanceID: 21956}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -231,23 +231,23 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1660}
+      Script: {instanceID: 1776}
     - Class: 114
-      Script: {instanceID: 2024}
+      Script: {instanceID: 2160}
     - Class: 114
-      Script: {instanceID: 2144}
+      Script: {instanceID: 2280}
     - Class: 114
-      Script: {instanceID: 2208}
+      Script: {instanceID: 2346}
     - Class: 114
-      Script: {instanceID: 2534}
+      Script: {instanceID: 2674}
     - Class: 114
-      Script: {instanceID: 2664}
+      Script: {instanceID: 2804}
     - Class: 114
-      Script: {instanceID: 2834}
+      Script: {instanceID: 2976}
     - Class: 114
-      Script: {instanceID: 3030}
+      Script: {instanceID: 3172}
     - Class: 114
-      Script: {instanceID: 3138}
+      Script: {instanceID: 3280}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -307,6 +307,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_InputField
+  - hash:
+      serializedVersion: 2
+      Hash: dc3593dea41681d1b05690f2cac6e9f7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: EdgeDetectEffect
+  - hash:
+      serializedVersion: 2
+      Hash: 172cfdd977ca8a6f32932932c2f0d2ee
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SepiaToneEffect
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -429,6 +441,12 @@ ScriptsOnlyBuild:
     className: ME_MeshMaterialEffect
   - hash:
       serializedVersion: 2
+      Hash: 91cc6ec9218dd916091231192a79b7b8
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CombineChildren
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: PimDeWitte.UnityMainThreadDispatcher.dll
     namespaceName: 
@@ -469,6 +487,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineDollyCart
+  - hash:
+      serializedVersion: 2
+      Hash: 8792e8356998aff9da84718837517b33
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BlurEffect
   - hash:
       serializedVersion: 2
       Hash: bd50beb95120324d8c4e8386692b6e82
@@ -541,6 +565,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Postprocessing.Runtime.dll
     namespaceName: UnityEngine.Rendering.PostProcessing
     className: PostProcessLayer
+  - hash:
+      serializedVersion: 2
+      Hash: 49935bc281bb27470ca38891cd716889
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DesaturateEffect
   - hash:
       serializedVersion: 2
       Hash: 62824bb9557c7e987502f2fbd2a26819
@@ -831,6 +861,12 @@ ScriptsOnlyBuild:
     className: ME_PerPlatformSettings
   - hash:
       serializedVersion: 2
+      Hash: 172cfdd977ca8a6f32932932c2f0d2ee
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ImageEffectBase
+  - hash:
+      serializedVersion: 2
       Hash: 8aa3d6ccbcb54ee8db6c1229854adaaa
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -1023,6 +1059,18 @@ ScriptsOnlyBuild:
     className: CinemachineShot
   - hash:
       serializedVersion: 2
+      Hash: a4f53786c5e89397b7d34957535b29a9
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: NoiseEffect
+  - hash:
+      serializedVersion: 2
+      Hash: 1a9e52e2ff472238deaebe06595ba637
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SSAOEffectDepthCutoff
+  - hash:
+      serializedVersion: 2
       Hash: a81d4c2c1cf3ad164d277d927a193679
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -1077,6 +1125,12 @@ ScriptsOnlyBuild:
     className: PostProcessEffectSettings
   - hash:
       serializedVersion: 2
+      Hash: 3bd301965190e77c3822602bd15d95bb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: VortexEffect
+  - hash:
+      serializedVersion: 2
       Hash: e6d75f1a9bc0c6f7085df0baa077e688
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
@@ -1125,6 +1179,12 @@ ScriptsOnlyBuild:
     className: ScrollRect
   - hash:
       serializedVersion: 2
+      Hash: 3bd301965190e77c3822602bd15d95bb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TwirlEffect
+  - hash:
+      serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -1147,6 +1207,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ControlPlayableAsset
+  - hash:
+      serializedVersion: 2
+      Hash: a5e44188ccd983bb228b74d4b7419ecf
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ContrastStretchEffect
   - hash:
       serializedVersion: 2
       Hash: ffd3ed4fcd23b3e7745287c99a637247
@@ -1195,6 +1261,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineHardLockToTarget
+  - hash:
+      serializedVersion: 2
+      Hash: 934baf2cb5e2e86e50481923f937652d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GlowEffect
   - hash:
       serializedVersion: 2
       Hash: 45813e15ba50f79c79fb4f365903bf6f
@@ -1275,6 +1347,12 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAsset
   - hash:
       serializedVersion: 2
+      Hash: 0574135745ea880aa1c1be2f2057ab89
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ActivateTrigger
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: NakamaEditor.dll
     namespaceName: Nakama.Snippets
@@ -1317,10 +1395,22 @@ ScriptsOnlyBuild:
     className: ScreenSpaceReflections
   - hash:
       serializedVersion: 2
+      Hash: a4ab9532686dbd13bc2c5bb58a3781ce
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MouseLook
+  - hash:
+      serializedVersion: 2
       Hash: b5c3dbcb94925c8b595ad16a62b44788
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineBasicMultiChannelPerlin
+  - hash:
+      serializedVersion: 2
+      Hash: af78f221a76b31179241c75f785d3894
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MotionBlur
   - hash:
       serializedVersion: 2
       Hash: d5630f96bd5a6a6eed7e1754c3fb8703
@@ -1377,6 +1467,12 @@ ScriptsOnlyBuild:
     className: CinemachineBlendListCamera
   - hash:
       serializedVersion: 2
+      Hash: f080a86a4a939dd08c0cc4f4f05e1e4e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GrayscaleEffect
+  - hash:
+      serializedVersion: 2
       Hash: d6fc8d3165070298511ec776ea575626
     assemblyName: Unity.Postprocessing.Runtime.dll
     namespaceName: UnityEngine.Rendering.PostProcessing
@@ -1387,6 +1483,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ME_MouseOrbit
+  - hash:
+      serializedVersion: 2
+      Hash: a8c33406fd5a44e89bd47fea3b45028f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ColorCorrectionEffect
   - hash:
       serializedVersion: 2
       Hash: 4ef1571615d18f8daeb0045ded2aa19d
